@@ -1,16 +1,46 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useAppContext } from "../hooks/hooks";
 
 const CreateProduct = () => {
+  const { createProduct, isLoading, fetchCategories, categories } =
+    useAppContext();
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const handleCreateProduct = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target as HTMLFormElement);
+    const product = {
+      name: formData.get("name") as string,
+      description: formData.get("description") as string,
+      price: parseFloat(formData.get("price") as string),
+      quantity: parseInt(formData.get("quantity") as string, 10),
+      image: formData.get("image"), // File input
+      category: formData.get("category") as string,
+      sizes: (formData.get("sizes") as string)
+        .split(",")
+        .map((size) => size.trim()),
+      colors: (formData.get("colors") as string)
+        .split(",")
+        .map((color) => color.trim()),
+    };
+
+    createProduct(product);
+    event.target.reset();
+  };
+
   return (
     <div>
-      <form className="max-w-lg mx-auto p-6 ">
+      <form onSubmit={handleCreateProduct} className="max-w-lg mx-auto p-6 ">
         <label className="block mb-2 text-sm">Name</label>
         <input
           type="text"
           name="name"
           className="w-full px-3 py-2 border text-sm font-light rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
           placeholder="Product Name"
-          required
         />
 
         <label className="block mb-2 text-sm">Description</label>
@@ -18,7 +48,6 @@ const CreateProduct = () => {
           name="description"
           className="w-full text-sm font-light px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
           placeholder="Product Description"
-          required
         ></textarea>
 
         <label className="block mb-2 text-sm">Price</label>
@@ -27,7 +56,6 @@ const CreateProduct = () => {
           name="price"
           className="w-full text-sm font-light px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
           placeholder="Product Price"
-          required
         />
 
         <label className="block mb-2 text-sm">Quantity</label>
@@ -36,27 +64,30 @@ const CreateProduct = () => {
           name="quantity"
           className="w-full text-sm font-light px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
           placeholder="Product Quantity"
-          required
         />
 
         <label className="block mb-2 text-sm">Image</label>
         <input
           type="file"
-          name="file"
+          name="image"
           className="w-full px-3 text-sm font-light py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
-          required
+          accept="image/*"
         />
 
         <label className="block mb-2 text-sm">Category</label>
         <select
           name="category"
           className="w-full px-3 text-sm font-light py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
-          required
         >
-          <option value="">Select a Category</option>
-          <option value="electronics">Electronics</option>
-          <option value="fashion">Fashion</option>
-          <option value="home">Home</option>
+          {isLoading ? (
+            <option disabled>Loading...</option>
+          ) : (
+            categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))
+          )}
         </select>
 
         <label className="block mb-2 text-sm">Sizes</label>
@@ -79,7 +110,7 @@ const CreateProduct = () => {
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded text-sm hover:bg-blue-600 transition duration-200"
         >
-          Submit
+          {isLoading ? "Creating..." : "Create Product"}
         </button>
       </form>
     </div>

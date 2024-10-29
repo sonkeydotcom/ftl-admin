@@ -9,6 +9,15 @@ export interface Bank {
   accountHolder: string;
 }
 
+export interface CategoriesProps {
+  id: number;
+  name: string;
+  type: string;
+  value: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface AppContextValue {
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
@@ -16,4 +25,18 @@ export interface AppContextValue {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   bank: Bank | null;
   setBank: React.Dispatch<React.SetStateAction<Bank | null>>;
+  createProduct: (product: Product) => void;
+  fetchCategories: () => void;
+  categories: CategoriesProps[];
+}
+
+export interface Product {
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  image: string;
+  category: string;
+  sizes: string[];
+  colors: string[];
 }
