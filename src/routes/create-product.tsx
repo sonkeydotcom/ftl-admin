@@ -82,9 +82,9 @@ const CreateProduct = () => {
           {isLoading ? (
             <option disabled>Loading...</option>
           ) : (
-            categories.map((category) => (
+            categories?.map((category) => (
               <option key={category.id} value={category.id}>
-                {category.name}
+                {category?.name}
               </option>
             ))
           )}
