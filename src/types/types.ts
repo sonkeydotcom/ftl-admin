@@ -27,9 +27,13 @@ export interface AppContextValue {
   setBank: React.Dispatch<React.SetStateAction<Bank | null>>;
   createProduct: (product: Product) => void;
   fetchCategories: () => void;
-  categories: CategoriesProps[];
+  categories: CategoriesProps[] | null;
   selectedProduct: Product | null;
   setSelectedProduct: React.Dispatch<React.SetStateAction<Product | null>>;
+  updateProduct: (id: number, product: Product) => void;
+  deleteProduct: (id: number) => void;
+  updateOrderStatus: (id: number, status: string) => void;
+  fetchOrders: () => void;
 }
 
 export interface Product {

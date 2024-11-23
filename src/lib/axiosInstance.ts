@@ -4,20 +4,17 @@ const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true,
   headers: {
-    // Accept: "application/json",
     "Content-Type": "multipart/form-data",
   },
 });
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-    // Retrieve token from localStorage
     const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    // Check if the data is FormData and set the appropriate Content-Type
     if (config.data instanceof FormData) {
       config.headers["Content-Type"] = "multipart/form-data";
     } else {

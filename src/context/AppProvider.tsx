@@ -18,12 +18,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [user, setUser] = useState<User>({ isAuthenticated: false });
   const [bank, setBank] = useState<Bank | null>(null);
-  const [categories, setCategories] = useState<CategoriesProps | null>();
+  const [categories, setCategories] = useState<CategoriesProps[] | null>(null);
+
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   // const [products, setProducts] = useState<Product[]>([]);
 
   const createProduct = useCallback(async (data: Product) => {
-    // Create a new product and update the state
     try {
       setIsLoading(true);
       const response = await axiosInstance.post<Product>("products", data);
@@ -38,11 +38,58 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
   }, []);
 
+  const updateProduct = useCallback(async (id: number, product: Product) => {
+    setIsLoading(true);
+    try {
+      const response = await axiosInstance.put(`products/${id}`, product);
+      console.log("Product updated", response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const deleteProduct = useCallback(async (id: number) => {
+    setIsLoading(true);
+    try {
+      const response = await axiosInstance.delete(`products/${id}`);
+      console.log("Product deleted", response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const updateOrderStatus = useCallback(async (id: number, status: string) => {
+    setIsLoading(true);
+    try {
+      const response = await axiosInstance.patch(`orders/${id}`, { status });
+      console.log("order status updated", response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const fetchOrders = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await axiosInstance.get("orders");
+      console.log("Fetched orders:", response.data);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  }, []);
+
   const fetchCategories = useCallback(async () => {
     try {
       const response = await axiosInstance.get("categories");
+      console.log("Fetched categories", response.data);
 
-      setCategories(response);
+      setCategories(response.data);
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
@@ -60,6 +107,11 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     categories,
     selectedProduct,
     setSelectedProduct,
+    updateProduct,
+    deleteProduct,
+    updateOrderStatus,
+    fetchOrders,
+    // products,
   };
 
   return (
