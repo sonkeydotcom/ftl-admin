@@ -1,29 +1,36 @@
-import React from "react";
-
-interface CustomInputProps {
+interface CustomInoutProps {
   title: string;
   placeholder: string;
-  //   value: string;
-  //   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const CustomInput: React.FC<CustomInputProps> = ({ title, placeholder }) => {
+const CustomeInput: React.FC<CustomInoutProps> = ({
+  title,
+  placeholder,
+  value = "",
+  onChange,
+}) => {
   return (
-    <div className="my-2">
-      <label className="text-[#757575]" htmlFor={title}>
+    <div className="max-w-lg ">
+      <label
+        className="text-[#757575]  mb-2 text-sm capitalize"
+        htmlFor={title}
+      >
         {title}
       </label>
       <br />
-      <div className="flex flex-row items-center border w-full rounded-lg border-[#cccccc] my-1 p-2">
-        <input
-          className="flex-1 p-1 border-none focus:outline-none"
-          type="text"
-          placeholder={placeholder}
-          id={title}
-        />
-      </div>
+
+      <input
+        className="w-full text-sm font-light px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
+        type="text"
+        id="title"
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange && onChange(e)}
+      />
     </div>
   );
 };
 
-export default CustomInput;
+export default CustomeInput;

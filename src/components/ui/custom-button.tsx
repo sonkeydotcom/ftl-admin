@@ -5,7 +5,7 @@ interface ButtonProp {
 const Button: React.FC<ButtonProp> = ({ title }) => {
   return (
     <>
-      <button className="bg-[#FFC727] w-[200px]  hover:bg-gray-700 hover:text-white text-black font-medium py-3 px-4 rounded-md">
+      <button className="bg-black   hover:bg-gray-700 hover:text-white text-white font-medium mt-4 w-full px-4 py-2 rounded-md">
         {title}
       </button>
     </>

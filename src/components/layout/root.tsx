@@ -2,12 +2,12 @@ import { Link, Outlet } from "react-router-dom";
 
 const navLinks = [
   {
-    name: "create product",
-    path: "/create-product",
+    name: "Products",
+    path: "/products",
   },
   {
-    name: "all products",
-    path: "/all-products",
+    name: "Orders",
+    path: "/orders",
   },
 ];
 

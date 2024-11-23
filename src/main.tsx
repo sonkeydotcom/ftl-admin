@@ -6,9 +6,12 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // import Wrapper from "./components/layout/wrapper";
 // import HomeScreen from "./routes/home";
 import Root from "./components/layout/root";
-import CreateProduct from "./routes/create-product";
+// import CreateProduct from "./routes/create-product";
 import AllProducts from "./routes/all-products";
 import { AppProvider } from "./context/AppProvider";
+import Products from "./routes/products";
+
+import Orders from "./routes/orders";
 
 const router = createBrowserRouter([
   // {
@@ -20,7 +23,8 @@ const router = createBrowserRouter([
     path: "/",
     element: <Root />,
     children: [
-      { path: "create-product", element: <CreateProduct /> },
+      { path: "Products", element: <Products /> },
+      { path: "Orders", element: <Orders /> },
       { path: "all-products", element: <AllProducts /> },
     ],
   },

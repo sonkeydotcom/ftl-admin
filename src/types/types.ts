@@ -28,6 +28,8 @@ export interface AppContextValue {
   createProduct: (product: Product) => void;
   fetchCategories: () => void;
   categories: CategoriesProps[];
+  selectedProduct: Product | null;
+  setSelectedProduct: React.Dispatch<React.SetStateAction<Product | null>>;
 }
 
 export interface Product {

@@ -19,6 +19,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>({ isAuthenticated: false });
   const [bank, setBank] = useState<Bank | null>(null);
   const [categories, setCategories] = useState<CategoriesProps | null>();
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   // const [products, setProducts] = useState<Product[]>([]);
 
   const createProduct = useCallback(async (data: Product) => {
@@ -57,6 +58,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     createProduct,
     fetchCategories,
     categories,
+    selectedProduct,
+    setSelectedProduct,
   };
 
   return (

@@ -33,7 +33,7 @@ const CreateProduct = () => {
   };
 
   return (
-    <div>
+    <div className="py-5">
       <form onSubmit={handleCreateProduct} className="max-w-lg mx-auto p-6 ">
         <label className="block mb-2 text-sm">Name</label>
         <input
