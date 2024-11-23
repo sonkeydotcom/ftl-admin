@@ -17,7 +17,7 @@ export const products = [
     price: 75,
     description:
       "Compact and lightweight wireless earbuds with excellent sound quality.",
-    image: "earbuds.jpg",
+    image: "https://ca.targus.com/cdn/shop/files/51206_0.jpg?v=1702392744",
     category: "Electronics",
     sizes: [],
     colors: ["Black", "White"],
