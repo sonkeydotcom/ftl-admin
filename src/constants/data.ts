@@ -4,7 +4,8 @@ export const products = [
     name: "Classic T-Shirt",
     price: 25,
     description: "A comfortable and stylish classic T-shirt for everyday wear.",
-    image: "tshirt.jpg",
+    image:
+      "https://images.vans.com/is/image/VansEU/VN000GGGNAV-HERO?wid=640&hei=800&fmt=jpeg&qlt=85,1&op_sharpen=1&resMode=sharp2&op_usm=1,1,6,0",
     category: "Clothing",
     sizes: ["S", "M", "L", "XL"],
     colors: ["White", "Black", "Navy"],
