@@ -2,30 +2,46 @@ import Modal from "./modal";
 import Button from "./ui/custom-button";
 import CustomeInput from "./ui/custom-input";
 import { useAppContext } from "../hooks/hooks";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const Create = ({ showCreate, closeCreate }) => {
-  const { isLoading, createProduct } = useAppContext();
+  const { isLoading, createProduct, fetchCategories, categories } =
+    useAppContext();
 
   const [form, setForm] = useState({
-    title: "",
+    name: "",
     description: "",
     price: "",
     quantity: "",
-    image: null,
+    files: [],
     colors: "",
     sizes: "",
-    category: "",
+    categoryId: "",
   });
 
   const handleInputChange = (e) => {
-    setForm({ ...form, [e.target.title]: e.target.value });
+    const { name, value } = e.target;
+    console.log(`Updating ${name} with value:`, value);
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
+  };
+
+  const handleImageChange = (e) => {
+    setForm({ ...form, files: e.target.files[0] });
   };
 
   const handleCreateProduct = async (e) => {
     e.preventDefault();
+    if (isLoading) return; // Prevent multiple submissions
+    console.log("Creating product:", form);
     await createProduct(form);
   };
+
+  useEffect(() => {
+    fetchCategories(); // Fetches categories when the component mounts
+  }, []);
 
   return (
     <Modal isOpen={showCreate} onClose={closeCreate}>
@@ -33,58 +49,76 @@ const Create = ({ showCreate, closeCreate }) => {
         <h2 className="text-lg font-bold mb-4">Edit Product</h2>
 
         <CustomeInput
-          value={form.title}
+          value={form.name}
+          title="name"
           onChange={handleInputChange}
-          title="Title"
+          name="name"
           placeholder="Enter product title"
         />
         <CustomeInput
-          title="Description"
-          placeholder="Enter product description"
           value={form.description}
           onChange={handleInputChange}
+          name="description"
+          placeholder="Enter product description"
         />
         <CustomeInput
-          title="Price"
           value={form.price}
           onChange={handleInputChange}
+          name="price"
           placeholder="Enter product price"
         />
         <CustomeInput
-          title="Quantity"
           value={form.quantity}
           onChange={handleInputChange}
+          name="quantity"
           placeholder="Enter product quantity"
         />
 
         <label className="block mb-2 text-sm">Image</label>
         <input
           type="file"
-          name="image"
+          name="files"
+          multiple
           className="w-full px-3 text-sm font-light py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
           accept="image/*"
+          onChange={handleImageChange}
         />
 
         <CustomeInput
-          title="colors"
           value={form.colors}
           onChange={handleInputChange}
+          name="colors"
           placeholder="e.g., Red, Blue, Green"
         />
 
         <CustomeInput
-          title="sizes"
           value={form.sizes}
           onChange={handleInputChange}
+          name="sizes"
           placeholder="e.g., S, M, L, XL"
         />
 
         <label className="block mb-2 text-sm">Category</label>
         <select
-          name="category"
+          id="categoryId"
+          name="categoryId"
+          value={form.categoryId}
+          onChange={handleInputChange}
+          disabled={!categories || categories.length === 0} // Disable if no categories
           className="w-full px-3 text-sm font-light py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
         >
-          <option>Select a category</option>
+          {categories?.length === 0 ? (
+            <option disabled>Loading...</option>
+          ) : (
+            categories?.map((category) => (
+              <>
+                <option value="">Select a category</option>
+                <option key={category.id} value={category.id}>
+                  {category?.name}
+                </option>
+              </>
+            ))
+          )}
         </select>
 
         <Button

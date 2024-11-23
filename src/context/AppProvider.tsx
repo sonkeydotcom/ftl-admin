@@ -56,14 +56,30 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const createProduct = useCallback(async (data: Product) => {
     try {
       setIsLoading(true);
-      const response = await axiosInstance.post<Product>("products", data);
 
-      if (!response) {
-        throw new Error("Failed to create product");
+      // Prepare FormData with all product fields
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("description", data.description);
+      formData.append("price", data.price.toString());
+      formData.append("quantity", data.quantity.toString());
+      formData.append("colors", data.colors); // Assuming `colors` is a string like "Red, Blue"
+      formData.append("sizes", data.sizes); // Assuming `sizes` is a string like "S, M, L"
+      formData.append("categoryId", data.categoryId); // Assuming `category` is the category ID
+      if (data.files) {
+        formData.append("files", data.files); // Add image file
       }
+
+      // Make the POST request
+      const response = await axiosInstance.post<Product>("products", formData);
+
+      // Handle successful response (optional)
+      console.log("Product created successfully:", response.data);
     } catch (error) {
+      // Handle errors
       console.error("Error creating product:", error);
     } finally {
+      // Always reset the loading state
       setIsLoading(false);
     }
   }, []);
