@@ -3,11 +3,11 @@ import { Link, Outlet } from "react-router-dom";
 const navLinks = [
   {
     name: "Products",
-    path: "/products",
+    path: "products",
   },
   {
     name: "Orders",
-    path: "/orders",
+    path: "orders",
   },
 ];
 

@@ -2,9 +2,9 @@ import React from "react";
 import Modal from "./modal";
 import Button from "./ui/custom-button";
 
-const OrderDetails = () => {
+const OrderDetails = ({ showOrderDetails, setShowOrderDetails }) => {
   return (
-    <Modal isOpen={true} onClose={() => {}}>
+    <Modal isOpen={showOrderDetails} onClose={() => setShowOrderDetails(false)}>
       <div className="p-2 bg-white ">
         {/* Order Details Header */}
         <h2 className="text-xl font-semibold text-gray-700 mb-4">

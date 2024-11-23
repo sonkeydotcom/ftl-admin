@@ -34,6 +34,8 @@ export interface AppContextValue {
   deleteProduct: (id: number) => void;
   updateOrderStatus: (id: number, status: string) => void;
   fetchOrders: () => void;
+  login: (email: string, password: string) => void;
+  orders: string[] | null;
 }
 
 export interface Product {

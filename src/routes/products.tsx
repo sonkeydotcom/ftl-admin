@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { products } from "../constants";
+import React, { useMemo, useState } from "react";
 import TableRow from "../components/TableRow";
 import Modal from "../components/modal";
 import CreateProduct from "./create-product";
@@ -8,7 +7,13 @@ import Edit from "../components/edit";
 import Create from "../components/create";
 
 const Products = () => {
-  const { selectedProduct, setSelectedProduct } = useAppContext();
+  const {
+    selectedProduct,
+    setSelectedProduct,
+    fetchProducts,
+    products,
+    isLoading,
+  } = useAppContext();
   const [isModalOpen, setModalOpen] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
 
@@ -22,6 +27,10 @@ const Products = () => {
   const closeEdit = () => {
     setSelectedProduct(null);
   };
+
+  useMemo(() => {
+    fetchProducts();
+  }, []);
 
   console.log("Selected Product:", selectedProduct);
   return (
@@ -48,9 +57,17 @@ const Products = () => {
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
-            <TableRow key={product.id} product={product} />
-          ))}
+          {isLoading ? (
+            <tr>
+              <td colSpan="5" className="py-3 text-center">
+                Loading...
+              </td>
+            </tr>
+          ) : (
+            products.map((product) => (
+              <TableRow key={product.id} product={product} />
+            ))
+          )}
         </tbody>
       </table>
 

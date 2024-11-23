@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OrderDetails from "../components/order-details";
 import OrderTableRow from "../components/order-table-row";
 import { OrderList } from "../constants";
+import { useAppContext } from "../hooks/hooks";
 
 const Orders = () => {
+  const { fetchOrders, orders, isLoading } = useAppContext();
   const [showOrderDetails, setShowOrderDetails] = useState(false);
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
   return (
     <div className="px-5 py-5">
       <h3>All Orders</h3>
@@ -21,12 +27,30 @@ const Orders = () => {
           </tr>
         </thead>
         <tbody>
-          {OrderList.map((order) => (
-            <OrderTableRow key={order.id} order={order} />
-          ))}
+          {isLoading ? (
+            <tr>
+              <td
+                colSpan="6"
+                className="px-4 py-2 border border-gray-300 text-center"
+              >
+                Loading...
+              </td>
+            </tr>
+          ) : (
+            orders.map((order) => (
+              <OrderTableRow
+                setShowOrderDetails={setShowOrderDetails}
+                key={order.id}
+                order={order}
+              />
+            ))
+          )}
         </tbody>
       </table>
-      <OrderDetails />
+      <OrderDetails
+        setShowOrderDetails={setShowOrderDetails}
+        showOrderDetails={showOrderDetails}
+      />
     </div>
   );
 };

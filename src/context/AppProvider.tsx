@@ -19,9 +19,39 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>({ isAuthenticated: false });
   const [bank, setBank] = useState<Bank | null>(null);
   const [categories, setCategories] = useState<CategoriesProps[] | null>(null);
+  const [orders, setOrders] = useState([]);
 
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  // const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+
+  const login = useCallback(async (email: string, password: string) => {
+    setIsLoading(true);
+    try {
+      const response = await axiosInstance.post<User>("admin/login", {
+        email,
+        password,
+      });
+      console.log("User logged in:", response.data);
+      return { success: true, data: response.data };
+    } catch (error) {
+      console.log("Error logging in:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const fetchProducts = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await axiosInstance.get<Product[]>("products");
+      console.log("Fetched products:", response.data);
+      setProducts(response.data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   const createProduct = useCallback(async (data: Product) => {
     try {
@@ -79,8 +109,11 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     try {
       const response = await axiosInstance.get("orders");
       console.log("Fetched orders:", response.data);
+      setOrders(response.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
@@ -96,6 +129,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   }, []);
 
   const contextValue: AppContextValue = {
+    login,
     user,
     setUser,
     isLoading,
@@ -111,7 +145,9 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     deleteProduct,
     updateOrderStatus,
     fetchOrders,
-    // products,
+    orders,
+    fetchProducts,
+    products,
   };
 
   return (

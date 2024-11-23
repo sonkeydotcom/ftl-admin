@@ -27,8 +27,8 @@ const TableRow: React.FC<TableRowProps> = ({ product }) => {
   };
 
   return (
-    <tr className="hover:bg-gray-50">
-      <td className="px-4 py-2 border border-gray-300">
+    <tr className="hover:bg-gray-50 items-center justify-center content-center text-center">
+      <td className="px-4 py-2 border border-gray-300 flex justify-center items-center">
         <div
           style={{
             width: "80px",
@@ -36,17 +36,13 @@ const TableRow: React.FC<TableRowProps> = ({ product }) => {
           }}
         >
           <img
-            src={product.image}
-            style={{
-              objectFit: "contain",
-              width: "100%",
-              height: "100%",
-            }}
+            src={product.image[0]}
             alt={product.title}
+            className="w-full h-full object-contain"
           />
         </div>
       </td>
-      <td className="px-4 py-2 border border-gray-300">{product.title}</td>
+      <td className="px-4 py-2 border border-gray-300">{product.name}</td>
       <td className="px-4 py-2 border border-gray-300">{product.price}</td>
       <td className="px-4 py-2 border border-gray-300">{product.quantity}</td>
       <td className="px-4 py-2 border border-gray-300">

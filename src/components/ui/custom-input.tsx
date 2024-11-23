@@ -2,7 +2,7 @@ interface CustomInoutProps {
   title: string;
   placeholder: string;
   value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (value: string) => void;
 }
 
 const CustomeInput: React.FC<CustomInoutProps> = ({
@@ -23,11 +23,11 @@ const CustomeInput: React.FC<CustomInoutProps> = ({
 
       <input
         className="w-full text-sm font-light px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
-        type="text"
-        id="title"
+        id={title}
         placeholder={placeholder}
         value={value}
-        onChange={(e) => onChange && onChange(e)}
+        type={title === "password" ? "password" : "text"}
+        onChange={(e) => onChange?.(e.target.value)}
       />
     </div>
   );

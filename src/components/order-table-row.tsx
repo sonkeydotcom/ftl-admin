@@ -1,5 +1,6 @@
 import React from "react";
 import { useAppContext } from "../hooks/hooks";
+import moment from "moment";
 
 interface order {
   id: string;
@@ -14,7 +15,10 @@ interface TableRowProps {
   order: order;
 }
 
-const OrderTableRow: React.FC<TableRowProps> = ({ order }) => {
+const OrderTableRow: React.FC<TableRowProps> = ({
+  order,
+  setShowOrderDetails,
+}) => {
   const { setSelectedorder } = useAppContext();
 
   const handleEdit = (order: order) => {
@@ -28,13 +32,17 @@ const OrderTableRow: React.FC<TableRowProps> = ({ order }) => {
 
   return (
     <tr className="hover:bg-gray-50 justify-center content-center items-center text-center">
-      <td className="px-4 py-2 border border-gray-300">{order.customerName}</td>
+      <td className="px-4 py-2 border border-gray-300">
+        {order.customerName || order.userId}
+      </td>
       <td className="px-4 py-2 border border-gray-300">{order.id}</td>
-      <td className="px-4 py-2 border border-gray-300">{order.date}</td>
+      <td className="px-4 py-2 border border-gray-300">
+        {moment(order.createdAt).format("MMM Do YY")}
+      </td>
       <td className="px-4 py-2 border border-gray-300">{order.status}</td>
       <td className="px-4 py-2 border border-gray-300">{order.totalPrice}</td>
       <td className="px-4 py-2 border border-gray-300">
-        <button>View details</button>
+        <button onClick={setShowOrderDetails}>View details</button>
       </td>
     </tr>
   );
