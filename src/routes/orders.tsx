@@ -7,6 +7,7 @@ import { useAppContext } from "../hooks/hooks";
 const Orders = () => {
   const { fetchOrders, orders, isLoading } = useAppContext();
   const [showOrderDetails, setShowOrderDetails] = useState(false);
+  const [orderId, setOrderId] = useState(0);
 
   useEffect(() => {
     fetchOrders();
@@ -42,6 +43,7 @@ const Orders = () => {
                 setShowOrderDetails={setShowOrderDetails}
                 key={order.id}
                 order={order}
+                setOrderId={setOrderId}
               />
             ))
           )}
@@ -50,6 +52,7 @@ const Orders = () => {
       <OrderDetails
         setShowOrderDetails={setShowOrderDetails}
         showOrderDetails={showOrderDetails}
+        orderId={orderId}
       />
     </div>
   );

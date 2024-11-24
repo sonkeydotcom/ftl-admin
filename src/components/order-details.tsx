@@ -1,8 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "./modal";
 import Button from "./ui/custom-button";
+import { useAppContext } from "../hooks/hooks";
 
-const OrderDetails = ({ showOrderDetails, setShowOrderDetails }) => {
+const OrderDetails = ({ showOrderDetails, setShowOrderDetails, orderId }) => {
+  const { isLoading, fetchOrderDetail, orderDetails, updateOrderStatus } =
+    useAppContext();
+
+  const [selectedStatus, setSelectedStatus] = useState("");
+
+  useEffect(() => {
+    if (orderId) {
+      fetchOrderDetail(orderId);
+    }
+  }, [orderId]);
+
+  const handleUpdateOrderStatus = () => {
+    const status = selectedStatus.toLowerCase();
+
+    updateOrderStatus(orderId, status);
+    // setShowOrderDetails(false);
+
+    console.log(orderId, selectedStatus);
+  };
+
   return (
     <Modal isOpen={showOrderDetails} onClose={() => setShowOrderDetails(false)}>
       <div className="p-2 bg-white ">
@@ -14,15 +35,19 @@ const OrderDetails = ({ showOrderDetails, setShowOrderDetails }) => {
         <div className="space-y-3">
           <div className="flex justify-between border-b pb-2">
             <p className="text-xs font-medium text-gray-600">Order ID</p>
-            <p className="text-xs font-semibold text-gray-800">Value</p>
+            <p className="text-xs font-semibold text-gray-800">{orderId}</p>
           </div>
           <div className="flex justify-between border-b pb-2">
             <p className="text-xs font-medium text-gray-600">Order Date</p>
-            <p className="text-xs font-semibold text-gray-800">Value</p>
+            <p className="text-xs font-semibold text-gray-800">
+              {orderDetails.createdAt}
+            </p>
           </div>
           <div className="flex justify-between border-b pb-2">
             <p className="text-xs font-medium text-gray-600">Order Price</p>
-            <p className="text-xs font-semibold text-green-600">Value</p>
+            <p className="text-xs font-semibold text-green-600">
+              {orderDetails.totalPrice}
+            </p>
           </div>
           <div className="flex justify-between border-b pb-2">
             <p className="text-xs font-medium text-gray-600">Payment Method</p>
@@ -30,11 +55,15 @@ const OrderDetails = ({ showOrderDetails, setShowOrderDetails }) => {
           </div>
           <div className="flex justify-between border-b pb-2">
             <p className="text-xs font-medium text-gray-600">Payment Status</p>
-            <p className="text-xs font-semibold text-gray-800">Value</p>
+            <p className="text-xs font-semibold text-gray-800">
+              {orderDetails.paymentStatus}
+            </p>
           </div>
           <div className="flex justify-between border-b pb-2">
             <p className="text-xs font-medium text-gray-600">Order Status</p>
-            <p className="text-xs font-semibold text-gray-800">Value</p>
+            <p className="text-xs font-semibold text-gray-800">
+              {orderDetails.status}
+            </p>
           </div>
         </div>
 
@@ -54,7 +83,9 @@ const OrderDetails = ({ showOrderDetails, setShowOrderDetails }) => {
         <div className="space-y-3">
           <div className="flex justify-between border-b pb-2">
             <p className="text-xs font-medium text-gray-600">Name</p>
-            <p className="text-xs font-semibold text-gray-800">Value</p>
+            <p className="text-xs font-semibold text-gray-800">
+              {orderDetails.userId}
+            </p>
           </div>
           <div className="flex justify-between border-b pb-2">
             <p className="text-xs font-medium text-gray-600">Address</p>
@@ -79,11 +110,23 @@ const OrderDetails = ({ showOrderDetails, setShowOrderDetails }) => {
           Order Status
         </h3>
         <div className="flex justify-between border-b pb-2">
-          <p className="text-xs font-medium text-gray-600">Order Status</p>
-          <p className="text-xs font-semibold text-gray-800">Value</p>
+          <select
+            value={selectedStatus} // Bind to state
+            onChange={(e) => setSelectedStatus(e.target.value)}
+          >
+            <option value="pending">Pending</option>
+            <option value="processing">Processing</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
         </div>
 
-        <Button title="Update Order Status" className="mt-6" />
+        <Button
+          onClick={handleUpdateOrderStatus}
+          title="Update Order Status"
+          className="mt-6"
+        />
       </div>
     </Modal>
   );

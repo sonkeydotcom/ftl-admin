@@ -2,7 +2,7 @@ interface CustomInoutProps {
   title: string;
   placeholder: string;
   value?: string;
-  onChange: () => void;
+  onChange: (value: string) => void;
   name?: string; // Added a new property named 'name' to the CustomInput component
 }
 

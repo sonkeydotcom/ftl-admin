@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAppContext } from "../hooks/hooks";
 import moment from "moment";
 
@@ -18,6 +18,8 @@ interface TableRowProps {
 const OrderTableRow: React.FC<TableRowProps> = ({
   order,
   setShowOrderDetails,
+  setOrderId,
+  ...rest
 }) => {
   const { setSelectedorder } = useAppContext();
 
@@ -42,7 +44,14 @@ const OrderTableRow: React.FC<TableRowProps> = ({
       <td className="px-4 py-2 border border-gray-300">{order.status}</td>
       <td className="px-4 py-2 border border-gray-300">{order.totalPrice}</td>
       <td className="px-4 py-2 border border-gray-300">
-        <button onClick={setShowOrderDetails}>View details</button>
+        <button
+          onClick={() => {
+            setShowOrderDetails(true);
+            setOrderId(order.id);
+          }}
+        >
+          View details
+        </button>
       </td>
     </tr>
   );

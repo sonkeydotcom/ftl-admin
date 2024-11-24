@@ -20,6 +20,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [bank, setBank] = useState<Bank | null>(null);
   const [categories, setCategories] = useState<CategoriesProps[] | null>(null);
   const [orders, setOrders] = useState([]);
+  const [orderDetails, setOrderDetails] = useState("");
 
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
@@ -35,19 +36,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       return { success: true, data: response.data };
     } catch (error) {
       console.log("Error logging in:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  const fetchProducts = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const response = await axiosInstance.get<Product[]>("products");
-      console.log("Fetched products:", response.data);
-      setProducts(response.data);
-    } catch (error) {
-      console.error("Error fetching products:", error);
     } finally {
       setIsLoading(false);
     }
@@ -84,6 +72,36 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
   }, []);
 
+  const updateOrderStatus = useCallback(
+    async (orderId: number, status: string) => {
+      setIsLoading(true);
+      try {
+        const response = await axiosInstance.patch(`orders/admin/${orderId}`, {
+          status,
+        });
+        console.log("Order status updated successfully:", response.data);
+      } catch (error) {
+        console.error("Error updating order status:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
+
+  const fetchProducts = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await axiosInstance.get<Product[]>("products");
+      console.log("Fetched products:", response.data);
+      setProducts(response.data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   const updateProduct = useCallback(async (id: number, product: Product) => {
     setIsLoading(true);
     try {
@@ -108,13 +126,14 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const updateOrderStatus = useCallback(async (id: number, status: string) => {
+  const fetchOrderDetail = useCallback(async (id: number) => {
     setIsLoading(true);
     try {
-      const response = await axiosInstance.patch(`orders/${id}`, { status });
-      console.log("order status updated", response.data);
+      const response = await axiosInstance.get(`orders/admin/${id}`);
+      console.log("Fetched order details:", response.data);
+      setOrderDetails(response.data);
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching order details:", error);
     } finally {
       setIsLoading(false);
     }
@@ -164,6 +183,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     orders,
     fetchProducts,
     products,
+    fetchOrderDetail,
+    orderDetails,
   };
 
   return (
