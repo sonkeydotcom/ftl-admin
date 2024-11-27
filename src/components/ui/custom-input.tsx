@@ -2,7 +2,9 @@ interface CustomInoutProps {
   title: string;
   placeholder: string;
   value?: string;
-  onChange: (value: string) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
   name?: string; // Added a new property named 'name' to the CustomInput component
 }
 

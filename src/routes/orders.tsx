@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import OrderDetails from "../components/order-details";
 import OrderTableRow from "../components/order-table-row";
-import { OrderList } from "../constants";
 import { useAppContext } from "../hooks/hooks";
 
 const Orders = () => {
@@ -31,7 +30,7 @@ const Orders = () => {
           {isLoading ? (
             <tr>
               <td
-                colSpan="6"
+                colSpan={6}
                 className="px-4 py-2 border border-gray-300 text-center"
               >
                 Loading...

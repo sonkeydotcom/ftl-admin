@@ -1,6 +1,6 @@
 interface ButtonProp {
   title: string;
-  onClick: () => void;
+  onClick: () => void | Promise<void>;
 }
 
 const Button: React.FC<ButtonProp> = ({ title, onClick }) => {

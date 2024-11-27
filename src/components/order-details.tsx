@@ -1,9 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "./modal";
 import Button from "./ui/custom-button";
 import { useAppContext } from "../hooks/hooks";
 
-const OrderDetails = ({ showOrderDetails, setShowOrderDetails, orderId }) => {
+interface OrderDetailsProps {
+  showOrderDetails: boolean;
+  setShowOrderDetails: (value: boolean) => void;
+  orderId: string;
+}
+
+const OrderDetails: React.FC<OrderDetailsProps> = ({
+  showOrderDetails,
+  setShowOrderDetails,
+  orderId,
+}) => {
   const { isLoading, fetchOrderDetail, orderDetails, updateOrderStatus } =
     useAppContext();
 
@@ -122,11 +132,7 @@ const OrderDetails = ({ showOrderDetails, setShowOrderDetails, orderId }) => {
           </select>
         </div>
 
-        <Button
-          onClick={handleUpdateOrderStatus}
-          title="Update Order Status"
-          className="mt-6"
-        />
+        <Button onClick={handleUpdateOrderStatus} title="Update Order Status" />
       </div>
     </Modal>
   );

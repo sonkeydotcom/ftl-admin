@@ -102,11 +102,16 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const updateProduct = useCallback(async (id: number, product: Product) => {
+  const updateProduct = useCallback(async (payLoad: Product) => {
     setIsLoading(true);
     try {
-      const response = await axiosInstance.put(`products/${id}`, product);
+      console.log("Updating product", payLoad);
+      const response = await axiosInstance.put(
+        `products/${payLoad.id}`,
+        payLoad
+      );
       console.log("Product updated", response.data);
+      return { success: true, data: response.data };
     } catch (error) {
       console.log(error);
     } finally {
@@ -118,7 +123,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.delete(`products/${id}`);
-      console.log("Product deleted", response.data);
+      console.log("Product deleted", response);
     } catch (error) {
       console.log(error);
     } finally {
@@ -163,6 +168,18 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
   }, []);
 
+  const createCategory = useCallback(async (payLoad: CategoriesProps) => {
+    setIsLoading(true);
+    try {
+      const response = await axiosInstance.post("categories", payLoad);
+      console.log("Category created successfully:", response.data);
+    } catch (error) {
+      console.error("Error creating category:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   const contextValue: AppContextValue = {
     login,
     user,
@@ -185,6 +202,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     products,
     fetchOrderDetail,
     orderDetails,
+    createCategory,
   };
 
   return (

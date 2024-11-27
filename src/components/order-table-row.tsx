@@ -1,36 +1,42 @@
-import React, { useState } from "react";
-import { useAppContext } from "../hooks/hooks";
+import React from "react";
+// import { useAppContext } from "../hooks/hooks";
 import moment from "moment";
 
 interface order {
-  id: string;
+  id: number;
   image: string;
   title: string;
   price: number;
   quantity: number;
   category: string;
+  status: string;
+  totalPrice: number;
+  createdAt: string;
+  customerName: string;
+  userId: string;
 }
 
 interface TableRowProps {
   order: order;
+  setShowOrderDetails: (show: boolean) => void;
+  setOrderId: (orderId: number) => void;
 }
 
 const OrderTableRow: React.FC<TableRowProps> = ({
   order,
   setShowOrderDetails,
   setOrderId,
-  ...rest
 }) => {
-  const { setSelectedorder } = useAppContext();
+  // const { setSelectedorder } = useAppContext();
 
-  const handleEdit = (order: order) => {
-    console.log(`Edit order with ID: ${order.id}`);
-    setSelectedorder(order);
-  };
+  // const handleEdit = (order: order) => {
+  //   console.log(`Edit order with ID: ${order.id}`);
+  //   setSelectedorder(order);
+  // };
 
-  const handleDelete = (orderId: string) => {
-    console.log(`Delete order with ID: ${orderId}`);
-  };
+  // const handleDelete = (orderId: string) => {
+  //   console.log(`Delete order with ID: ${orderId}`);
+  // };
 
   return (
     <tr className="hover:bg-gray-50 justify-center content-center items-center text-center">

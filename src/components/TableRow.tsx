@@ -1,29 +1,21 @@
 import React from "react";
 import { useAppContext } from "../hooks/hooks";
-
-interface Product {
-  id: string;
-  image: string;
-  title: string;
-  price: number;
-  quantity: number;
-  category: string;
-}
+import { Product } from "../types/types";
 
 interface TableRowProps {
   product: Product;
 }
 
 const TableRow: React.FC<TableRowProps> = ({ product }) => {
-  const { setSelectedProduct } = useAppContext();
+  const { setSelectedProduct, deleteProduct } = useAppContext();
 
   const handleEdit = (product: Product) => {
     console.log(`Edit product with ID: ${product.id}`);
     setSelectedProduct(product);
   };
 
-  const handleDelete = (productId: string) => {
-    console.log(`Delete product with ID: ${productId}`);
+  const handleDelete = (productId: number) => {
+    deleteProduct(productId);
   };
 
   return (
@@ -37,7 +29,7 @@ const TableRow: React.FC<TableRowProps> = ({ product }) => {
         >
           <img
             src={product.image[0]}
-            alt={product.title}
+            alt={product.name}
             className="w-full h-full object-contain"
           />
         </div>
@@ -49,14 +41,14 @@ const TableRow: React.FC<TableRowProps> = ({ product }) => {
         <button
           onClick={() => handleEdit(product)}
           className="text-sm font-medium text-blue-600 hover:underline"
-          aria-label={`Edit ${product.title}`}
+          aria-label={`Edit ${product.name}`}
         >
           Edit
         </button>
         <button
           onClick={() => handleDelete(product.id)}
           className="text-sm font-medium text-red-600 hover:underline ml-2"
-          aria-label={`Delete ${product.title}`}
+          aria-label={`Delete ${product.name}`}
         >
           Delete
         </button>

@@ -3,11 +3,9 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginScreen from "./routes/login";
-import Wrapper from "./components/layout/wrapper";
-// import HomeScreen from "./routes/home";
 import Root from "./components/layout/root";
+import Store from "./routes/store";
 
-import AllProducts from "./routes/all-products";
 import { AppProvider } from "./context/AppProvider";
 import Products from "./routes/products";
 import Orders from "./routes/orders";
@@ -22,9 +20,9 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <Root />,
     children: [
+      { index: true, element: <Store /> },
       { path: "Products", element: <Products /> },
       { path: "Orders", element: <Orders /> },
-      { path: "all-products", element: <AllProducts /> },
     ],
   },
 ]);

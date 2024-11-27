@@ -36,15 +36,24 @@ export interface AppContextValue {
   fetchOrders: () => void;
   login: (email: string, password: string) => void;
   orders: string[] | null;
+  fetchProducts: () => void;
+  products: Product[];
+  createCategory: (category: CategoriesProps) => void;
+  setSelectedorder: React.Dispatch<React.SetStateAction<string[] | null>>;
+  fetchOrderDetail: (id: number) => void;
+  orderDetails: OrderDetail | null;
 }
 
 export interface Product {
+  id: number;
   name: string;
   description: string;
   price: number;
   quantity: number;
   image: string;
+  files: string;
   category: string;
-  sizes: string[];
-  colors: string[];
+  sizes: string;
+  colors: string;
+  categoryId: string;
 }

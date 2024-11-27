@@ -2,6 +2,10 @@ import { Link, Outlet } from "react-router-dom";
 
 const navLinks = [
   {
+    name: "Store",
+    path: "/dashboard",
+  },
+  {
     name: "Products",
     path: "products",
   },

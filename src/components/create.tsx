@@ -2,7 +2,7 @@ import Modal from "./modal";
 import Button from "./ui/custom-button";
 import CustomeInput from "./ui/custom-input";
 import { useAppContext } from "../hooks/hooks";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 const Create = ({ showCreate, closeCreate }) => {
   const { isLoading, createProduct, fetchCategories, categories } =
@@ -19,9 +19,10 @@ const Create = ({ showCreate, closeCreate }) => {
     categoryId: "",
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    console.log(`Updating ${name} with value:`, value);
     setForm((prevForm) => ({
       ...prevForm,
       [name]: value,
@@ -32,11 +33,13 @@ const Create = ({ showCreate, closeCreate }) => {
     setForm({ ...form, files: e.target.files[0] });
   };
 
-  const handleCreateProduct = async (e) => {
+  const handleCreateProduct = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     e.preventDefault();
     if (isLoading) return; // Prevent multiple submissions
     console.log("Creating product:", form);
-    await createProduct(form);
+    createProduct(form);
   };
 
   useEffect(() => {
@@ -57,17 +60,20 @@ const Create = ({ showCreate, closeCreate }) => {
         />
         <CustomeInput
           value={form.description}
+          title="description"
           onChange={handleInputChange}
           name="description"
           placeholder="Enter product description"
         />
         <CustomeInput
+          title="price"
           value={form.price}
           onChange={handleInputChange}
           name="price"
           placeholder="Enter product price"
         />
         <CustomeInput
+          title="quantity"
           value={form.quantity}
           onChange={handleInputChange}
           name="quantity"
@@ -85,6 +91,7 @@ const Create = ({ showCreate, closeCreate }) => {
         />
 
         <CustomeInput
+          title="colors"
           value={form.colors}
           onChange={handleInputChange}
           name="colors"
@@ -92,6 +99,7 @@ const Create = ({ showCreate, closeCreate }) => {
         />
 
         <CustomeInput
+          title="sizes"
           value={form.sizes}
           onChange={handleInputChange}
           name="sizes"

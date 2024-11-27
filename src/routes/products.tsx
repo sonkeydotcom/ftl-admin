@@ -1,10 +1,10 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import TableRow from "../components/TableRow";
-import Modal from "../components/modal";
-import CreateProduct from "./create-product";
+
 import { useAppContext } from "../hooks/hooks";
 import Edit from "../components/edit";
 import Create from "../components/create";
+import CreateCategory from "../components/create-category";
 
 const Products = () => {
   const {
@@ -14,11 +14,9 @@ const Products = () => {
     products,
     isLoading,
   } = useAppContext();
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [showCreate, setShowCreate] = useState(false);
 
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+  const [showCreate, setShowCreate] = useState(false);
+  const [catModal, setShowCatModal] = useState(false);
 
   const closeCreate = () => {
     setShowCreate(false);
@@ -37,8 +35,15 @@ const Products = () => {
     <div className=" mx-5 overflow-x-auto">
       <div
         className="
-      flex justify-end items-center px-4 py-2 "
+      flex justify-end items-center px-4 py-2 gap-4 "
       >
+        <button
+          onClick={() => setShowCatModal(true)}
+          className=" text-black font-bold py-2 px-4 rounded"
+        >
+          Create category
+        </button>
+
         <button
           onClick={() => setShowCreate(true)}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -59,7 +64,7 @@ const Products = () => {
         <tbody>
           {isLoading ? (
             <tr>
-              <td colSpan="5" className="py-3 text-center">
+              <td colSpan={5} className="py-3 text-center">
                 Loading...
               </td>
             </tr>
@@ -71,9 +76,11 @@ const Products = () => {
         </tbody>
       </table>
 
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <CreateProduct />
-      </Modal>
+      <CreateCategory
+        catModal={catModal}
+        closeCatModal={() => setShowCatModal(false)}
+        onClose={() => setShowCatModal(false)}
+      />
 
       <Edit showEdit={selectedProduct?.id} closeEdit={closeEdit} />
       {showCreate && (
