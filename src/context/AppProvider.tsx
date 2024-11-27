@@ -7,6 +7,8 @@ import type {
   AppContextValue,
   Product,
   CategoriesProps,
+  OrderDetails,
+  Order,
 } from "../types/types";
 import axiosInstance from "../lib/axiosInstance";
 
@@ -19,27 +21,56 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>({ isAuthenticated: false });
   const [bank, setBank] = useState<Bank | null>(null);
   const [categories, setCategories] = useState<CategoriesProps[] | null>(null);
-  const [orders, setOrders] = useState([]);
-  const [orderDetails, setOrderDetails] = useState("");
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [orderDetails, setOrderDetails] = useState<OrderDetails>({
+    id: 0,
+    userId: 0,
+    createdAt: "",
+    totalPrice: 0,
+    paymentStatus: "",
+    status: "",
+  });
 
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
 
-  const login = useCallback(async (email: string, password: string) => {
-    setIsLoading(true);
-    try {
-      const response = await axiosInstance.post<User>("admin/login", {
-        email,
-        password,
-      });
-      console.log("User logged in:", response.data);
-      return { success: true, data: response.data };
-    } catch (error) {
-      console.log("Error logging in:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  // const login = useCallback(async (email: string, password: string) => {
+  //   setIsLoading(true);
+  //   try {
+  //     const response = await axiosInstance.post<User>("admin/login", {
+  //       email,
+  //       password,
+  //     });
+
+  //     return { success: true, data: response.data };
+  //   } catch (error) {
+  //     console.log("Error logging in:", error);
+  //     return { success: false, error };
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // }, []);
+
+  type LoginResult = { success?: boolean; data?: User; error?: any };
+
+  const login = useCallback(
+    async (email: string, password: string): Promise<LoginResult> => {
+      setIsLoading(true);
+      try {
+        const response = await axiosInstance.post<User>("admin/login", {
+          email,
+          password,
+        });
+        return { success: true, data: response.data }; // Always return something here
+      } catch (error) {
+        return { success: false, error }; // Always return something on error
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
 
   const createProduct = useCallback(async (data: Product) => {
     try {
@@ -102,7 +133,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const updateProduct = useCallback(async (payLoad: Product) => {
+  const updateProduct = useCallback(async (payLoad: Partial<Product>) => {
     setIsLoading(true);
     try {
       console.log("Updating product", payLoad);
@@ -203,6 +234,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     fetchOrderDetail,
     orderDetails,
     createCategory,
+    selectedOrder,
+    setSelectedOrder,
   };
 
   return (

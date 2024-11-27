@@ -1,6 +1,7 @@
 interface CustomInoutProps {
   title: string;
   placeholder: string;
+  type?: string; // Added a new property named 'type' to the CustomInput component to allow custom input types
   value?: string;
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -14,6 +15,7 @@ const CustomeInput: React.FC<CustomInoutProps> = ({
   value = "",
   onChange,
   name,
+  type,
 }) => {
   return (
     <div className="max-w-lg ">
@@ -31,7 +33,7 @@ const CustomeInput: React.FC<CustomInoutProps> = ({
         name={name}
         placeholder={placeholder}
         value={value}
-        type={title === "password" ? "password" : "text"}
+        type={title === "password" ? "password" : type ? type : "text"}
         onChange={onChange}
       />
     </div>

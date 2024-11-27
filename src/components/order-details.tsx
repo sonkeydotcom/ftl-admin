@@ -6,7 +6,7 @@ import { useAppContext } from "../hooks/hooks";
 interface OrderDetailsProps {
   showOrderDetails: boolean;
   setShowOrderDetails: (value: boolean) => void;
-  orderId: string;
+  orderId: number;
 }
 
 const OrderDetails: React.FC<OrderDetailsProps> = ({
@@ -50,7 +50,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
           <div className="flex justify-between border-b pb-2">
             <p className="text-xs font-medium text-gray-600">Order Date</p>
             <p className="text-xs font-semibold text-gray-800">
-              {orderDetails.createdAt}
+              {orderDetails?.createdAt}
             </p>
           </div>
           <div className="flex justify-between border-b pb-2">
@@ -132,7 +132,10 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
           </select>
         </div>
 
-        <Button onClick={handleUpdateOrderStatus} title="Update Order Status" />
+        <Button
+          onClick={handleUpdateOrderStatus}
+          title={isLoading ? "Updating status" : "Update Order Status"}
+        />
       </div>
     </Modal>
   );

@@ -3,8 +3,14 @@ import Button from "./ui/custom-button";
 import CustomeInput from "./ui/custom-input";
 import { useAppContext } from "../hooks/hooks";
 import { useState, useEffect } from "react";
+import { Product } from "../types/types";
 
-const Edit = ({ showEdit, closeEdit }) => {
+interface EditProps {
+  showEdit: boolean;
+  closeEdit: () => void;
+}
+
+const Edit: React.FC<EditProps> = ({ showEdit, closeEdit }) => {
   const { selectedProduct, updateProduct } = useAppContext();
 
   // Initialize form state based on the selectedProduct
@@ -19,15 +25,19 @@ const Edit = ({ showEdit, closeEdit }) => {
   useEffect(() => {
     if (selectedProduct) {
       setForm({
-        name: selectedProduct.name || "",
-        price: selectedProduct.price || "",
-        quantity: selectedProduct.quantity || "",
+        name: selectedProduct.name,
+        price: selectedProduct.price.toString(),
+        quantity: selectedProduct.quantity.toString() || "0",
         description: selectedProduct.description || "",
       });
     }
   }, [selectedProduct]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
       ...prevForm,
@@ -42,11 +52,11 @@ const Edit = ({ showEdit, closeEdit }) => {
     }
 
     console.log("Updating product:", form);
-    const payLoad = {
-      id: selectedProduct.id,
+    const payLoad: Partial<Product> = {
+      id: selectedProduct?.id,
       name: form.name,
-      price: form.price,
-      quantity: form.quantity,
+      price: parseFloat(form.price),
+      quantity: parseInt(form.quantity),
       description: form.description,
       // Add any other fields if needed
     };

@@ -1,23 +1,10 @@
 import React from "react";
 // import { useAppContext } from "../hooks/hooks";
 import moment from "moment";
-
-interface order {
-  id: number;
-  image: string;
-  title: string;
-  price: number;
-  quantity: number;
-  category: string;
-  status: string;
-  totalPrice: number;
-  createdAt: string;
-  customerName: string;
-  userId: string;
-}
+import { Order } from "../types/types";
 
 interface TableRowProps {
-  order: order;
+  order: Order;
   setShowOrderDetails: (show: boolean) => void;
   setOrderId: (orderId: number) => void;
 }

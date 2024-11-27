@@ -7,23 +7,14 @@ import Create from "../components/create";
 import CreateCategory from "../components/create-category";
 
 const Products = () => {
-  const {
-    selectedProduct,
-    setSelectedProduct,
-    fetchProducts,
-    products,
-    isLoading,
-  } = useAppContext();
+  const { selectedProduct, fetchProducts, products, isLoading } =
+    useAppContext();
 
   const [showCreate, setShowCreate] = useState(false);
   const [catModal, setShowCatModal] = useState(false);
 
   const closeCreate = () => {
     setShowCreate(false);
-  };
-
-  const closeEdit = () => {
-    setSelectedProduct(null);
   };
 
   useMemo(() => {
@@ -82,7 +73,7 @@ const Products = () => {
         onClose={() => setShowCatModal(false)}
       />
 
-      <Edit showEdit={selectedProduct?.id} closeEdit={closeEdit} />
+      <Edit showEdit={showCreate} closeEdit={() => setShowCreate(false)} />
       {showCreate && (
         <Create showCreate={showCreate} closeCreate={closeCreate} />
       )}

@@ -3,8 +3,14 @@ import Button from "./ui/custom-button";
 import CustomeInput from "./ui/custom-input";
 import { useAppContext } from "../hooks/hooks";
 import { useEffect, useState } from "react";
+import { Product } from "../types/types";
 
-const Create = ({ showCreate, closeCreate }) => {
+interface CreateProps {
+  showCreate: boolean;
+  closeCreate: () => void;
+}
+
+const Create: React.FC<CreateProps> = ({ showCreate, closeCreate }) => {
   const { isLoading, createProduct, fetchCategories, categories } =
     useAppContext();
 
@@ -20,7 +26,9 @@ const Create = ({ showCreate, closeCreate }) => {
   });
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
@@ -29,17 +37,36 @@ const Create = ({ showCreate, closeCreate }) => {
     }));
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, files: e.target.files[0] });
   };
 
-  const handleCreateProduct = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    e.preventDefault();
+  // const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>)
+
+  //  e: React.ChangeEvent<
+  //    HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+  //  >
+
+  const handleCreateProduct = () => {
+    // e.preventDefault();
     if (isLoading) return; // Prevent multiple submissions
     console.log("Creating product:", form);
-    createProduct(form);
+
+    const payload: Partial<Product> = {
+      name: form.name,
+      description: form.description,
+      price: parseFloat(form.price),
+      quantity: parseInt(form.quantity),
+      files: form.files,
+      colors: form.colors,
+      sizes: form.sizes,
+      categoryId: form.categoryId,
+      image: "",
+      category: "",
+      id: "",
+    };
+
+    createProduct(payload); // Works as the omitted fields are not required
   };
 
   useEffect(() => {
