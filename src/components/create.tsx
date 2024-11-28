@@ -14,12 +14,12 @@ const Create: React.FC<CreateProps> = ({ showCreate, closeCreate }) => {
   const { isLoading, createProduct, fetchCategories, categories } =
     useAppContext();
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<Product>({
     name: "",
     description: "",
-    price: "",
-    quantity: "",
-    files: [],
+    price: 0,
+    quantity: 0,
+    files: null,
     colors: "",
     sizes: "",
     categoryId: "",
@@ -37,33 +37,37 @@ const Create: React.FC<CreateProps> = ({ showCreate, closeCreate }) => {
     }));
   };
 
+  // const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const handleImageChange = (e) => {
+  //     setForm({ ...form, files: e.target.files[0] });
+  //   };
+  // };
+
+  // const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setForm({ ...form, files: e.target.files[0] });
+  // };
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, files: e.target.files[0] });
+    if (e.target.files && e.target.files[0]) {
+      setForm({ ...form, files: e.target.files[0] });
+    }
   };
-
-  // const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>)
-
-  //  e: React.ChangeEvent<
-  //    HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-  //  >
 
   const handleCreateProduct = () => {
     // e.preventDefault();
     if (isLoading) return; // Prevent multiple submissions
     console.log("Creating product:", form);
 
-    const payload: Partial<Product> = {
+    const payload: Product = {
       name: form.name,
       description: form.description,
-      price: parseFloat(form.price),
-      quantity: parseInt(form.quantity),
+      price: form.price,
+      quantity: form.quantity,
       files: form.files,
       colors: form.colors,
       sizes: form.sizes,
       categoryId: form.categoryId,
-      image: "",
-      category: "",
-      id: "",
+      id: Number(""),
     };
 
     createProduct(payload); // Works as the omitted fields are not required

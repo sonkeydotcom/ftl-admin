@@ -9,6 +9,7 @@ import type {
   CategoriesProps,
   OrderDetails,
   Order,
+  LoginResult,
 } from "../types/types";
 import axiosInstance from "../lib/axiosInstance";
 
@@ -52,8 +53,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   //   }
   // }, []);
 
-  type LoginResult = { success?: boolean; data?: User; error?: any };
-
   const login = useCallback(
     async (email: string, password: string): Promise<LoginResult> => {
       setIsLoading(true);
@@ -62,9 +61,10 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
           email,
           password,
         });
-        return { success: true, data: response.data }; // Always return something here
+
+        return { success: true, data: response.data };
       } catch (error) {
-        return { success: false, error }; // Always return something on error
+        return { success: false, error }; // Return an object with success: false on error
       } finally {
         setIsLoading(false);
       }
@@ -85,6 +85,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       formData.append("colors", data.colors); // Assuming `colors` is a string like "Red, Blue"
       formData.append("sizes", data.sizes); // Assuming `sizes` is a string like "S, M, L"
       formData.append("categoryId", data.categoryId); // Assuming `category` is the category ID
+
       if (data.files) {
         formData.append("files", data.files); // Add image file
       }

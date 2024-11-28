@@ -5,6 +5,8 @@ const axiosInstance = axios.create({
   withCredentials: true,
   headers: {
     "Content-Type": "multipart/form-data",
+    Accept: "application/json",
+    "X-Requested-With": "XMLHttpRequest",
   },
 });
 

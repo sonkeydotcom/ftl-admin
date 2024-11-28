@@ -7,16 +7,16 @@ interface TableRowProps {
 }
 
 const TableRow: React.FC<TableRowProps> = ({ product }) => {
-  const { setSelectedProduct, deleteProduct } = useAppContext();
+  const { setSelectedProduct } = useAppContext();
 
   const handleEdit = (product: Product) => {
     console.log(`Edit product with ID: ${product.id}`);
     setSelectedProduct(product);
   };
 
-  const handleDelete = (productId: number) => {
-    deleteProduct(productId);
-  };
+  // const handleDelete = (productId: number) => {
+  //   deleteProduct(productId);
+  // };
 
   return (
     <tr className="hover:bg-gray-50 items-center justify-center content-center text-center">
@@ -28,7 +28,7 @@ const TableRow: React.FC<TableRowProps> = ({ product }) => {
           }}
         >
           <img
-            src={product.image[0]}
+            src={product.image?.[0] || "/default-image.jpg"} // Provide a default image if `product.image` is null or undefined
             alt={product.name}
             className="w-full h-full object-contain"
           />
@@ -46,7 +46,7 @@ const TableRow: React.FC<TableRowProps> = ({ product }) => {
           Edit
         </button>
         <button
-          onClick={() => handleDelete(product.id)}
+          onClick={() => console.log(`Deleting product with ID: ${product.id}`)}
           className="text-sm font-medium text-red-600 hover:underline ml-2"
           aria-label={`Delete ${product.name}`}
         >

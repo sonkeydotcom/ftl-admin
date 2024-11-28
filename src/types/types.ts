@@ -9,6 +9,12 @@ export interface Bank {
   accountHolder: string;
 }
 
+export interface LoginResult {
+  success: boolean;
+  data?: User; // Optional because it may not exist on failure
+  error?: unknown; // Optional because it may not exist on success
+}
+
 export interface CategoriesProps {
   id?: number;
   name: string;
@@ -47,14 +53,14 @@ export interface Order {
 }
 
 export interface Product {
-  id: number;
+  id?: number;
   name: string;
   description: string;
   price: number;
   quantity: number;
-  image: string;
-  files: File | File[];
-  category: string;
+  // files: File | File[];
+  files: null | File;
+  image?: string | null;
   sizes: string;
   colors: string;
   categoryId: string;
@@ -67,21 +73,22 @@ export interface AppContextValue {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   bank: Bank | null;
   setBank: React.Dispatch<React.SetStateAction<Bank | null>>;
-  createProduct: (product: Product) => void;
+  createProduct: (product: Product) => Promise<void>;
   fetchCategories: () => void;
   categories: CategoriesProps[] | null;
   selectedProduct: Product | null;
   setSelectedProduct: React.Dispatch<React.SetStateAction<Product | null>>;
   updateProduct: (product: Partial<Product>) => void;
-  deleteProduct: (id: number) => void;
+  deleteProduct: (id: number) => Promise<void>;
   updateOrderStatus: (id: number, status: string) => void;
   fetchOrders: () => void;
-  login: (email: string, password: string) => void;
+  login: (email: string, password: string) => Promise<LoginResult>;
   orders: Order[];
   fetchProducts: () => void;
   products: Product[];
   createCategory: (category: CategoriesProps) => void;
   setSelectedOrder: React.Dispatch<React.SetStateAction<string | null>>;
+  selectedOrder: string | null;
   fetchOrderDetail: (id: number) => void;
   orderDetails: OrderDetails;
 }

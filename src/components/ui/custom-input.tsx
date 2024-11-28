@@ -2,7 +2,7 @@ interface CustomInoutProps {
   title: string;
   placeholder: string;
   type?: string; // Added a new property named 'type' to the CustomInput component to allow custom input types
-  value?: string;
+  value?: string | number; // Added a new property named 'value' to the CustomInput component to allow custom input values
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
@@ -12,7 +12,7 @@ interface CustomInoutProps {
 const CustomeInput: React.FC<CustomInoutProps> = ({
   title,
   placeholder,
-  value = "",
+  value,
   onChange,
   name,
   type,

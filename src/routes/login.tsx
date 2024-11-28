@@ -4,6 +4,7 @@ import CustomInput from "../components/ui/custom-input";
 import { useAppContext } from "../hooks/hooks";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+// import { LoginResult } from "../types/types";
 
 const LoginScreen = () => {
   const navigate = useNavigate();
@@ -13,13 +14,13 @@ const LoginScreen = () => {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const result = await login(email, password);
-    if (result.success) {
+    const res = await login(email, password);
+    if (res !== undefined && res.success) {
+      // Check if result is not undefined
       navigate("/dashboard");
     }
-
-    console.log(result); // Uncomment this line to see the response from the API call.
   };
+
   return (
     <div className=" h-[450px] flex flex-col max-w-md shadow-lg m-auto content-center items-center justify-center mt-10">
       <h3 className="mx-4 my-4 text-2xl font-semibold"> Welcome back</h3>
