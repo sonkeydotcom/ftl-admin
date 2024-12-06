@@ -146,12 +146,12 @@ const Create: React.FC<CreateProps> = ({ showCreate, closeCreate }) => {
           disabled={!categories || categories.length === 0} // Disable if no categories
           className="w-full px-3 text-sm font-light py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
         >
+          <option value="">Select a category</option>
           {categories?.length === 0 ? (
             <option disabled>Loading...</option>
           ) : (
             categories?.map((category) => (
               <>
-                <option value="">Select a category</option>
                 <option key={category.id} value={category.id}>
                   {category?.name}
                 </option>
