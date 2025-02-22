@@ -9,11 +9,23 @@ export interface Bank {
   accountHolder: string;
 }
 
+export interface LoginError {
+  data?: { message?: string };
+  status?: number;
+  statusText?: string;
+}
+
 export interface LoginResult {
   success: boolean;
-  data?: User; // Optional because it may not exist on failure
-  error?: unknown; // Optional because it may not exist on success
+  data?: User;
+  error?: LoginError; // Now TypeScript knows `error` has `data.message`
 }
+
+// export interface LoginResult {
+//   success: boolean;
+//   data?: User; // Optional because it may not exist on failure
+//   error?: unknown; // Optional because it may not exist on success
+// }
 
 export interface CategoriesProps {
   id?: number;

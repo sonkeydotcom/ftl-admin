@@ -11,13 +11,18 @@ const LoginScreen = () => {
   const { login, isLoading } = useAppContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await login(email, password);
-    if (res !== undefined && res.success) {
-      // Check if result is not undefined
+    console.log("Login result:", res);
+
+    if (res.success) {
       navigate("/dashboard");
+    } else {
+      const errorMessage = res.error?.data?.message || "Login failed";
+      setError(errorMessage);
     }
   };
 
@@ -34,11 +39,13 @@ const LoginScreen = () => {
         />
 
         <CustomInput
-          title="password"
+          title="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Enter your email"
         />
+
+        {error && <p className="text-red-500 text-sm">{error}</p>}
 
         <Button title={isLoading ? "Loading..." : "Login"} />
       </form>
