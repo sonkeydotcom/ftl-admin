@@ -187,8 +187,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const fetchOrders = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await axiosInstance.get("orders");
-      console.log("Fetched orders:", response.data);
+      const response = await axiosInstance.get("/admin/orders");
+      console.log("Fetched orders:", response);
       setOrders(response.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
