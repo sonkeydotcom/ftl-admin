@@ -70,10 +70,11 @@ export interface Order {
 
 export interface Product {
   id?: number;
+  _id?: string;
   name: string;
   description: string;
   price: number;
-  quantity: number;
+  stock: number;
   // files: File | File[];
   files: null | File;
   image?: string | null;

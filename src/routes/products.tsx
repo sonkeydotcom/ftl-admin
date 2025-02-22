@@ -65,7 +65,7 @@ const Products = () => {
             </tr>
           ) : products?.length ? (
             products.map((product) => (
-              <TableRow key={product.id} product={product} />
+              <TableRow key={product._id} product={product} />
             ))
           ) : (
             <tr>
