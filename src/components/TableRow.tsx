@@ -25,8 +25,6 @@ const TableRow: React.FC<TableRowProps> = ({ product, setShowEdit }) => {
     } else {
       alert("Error deleting product. Please try again.");
     }
-
-    // Implement delete logic here
   };
 
   return (
@@ -38,21 +36,9 @@ const TableRow: React.FC<TableRowProps> = ({ product, setShowEdit }) => {
             height: "80px",
           }}
         >
-          {/* <img
-            src={
-              product.images?.[0] ||
-              "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
-            } // Provide a default image if `product.image` is null or undefined
-            alt={"img"}
-            className="w-full h-full object-contain"
-          /> */}
           <img
-            src={
-              product.images && product.images.length > 0
-                ? URL.createObjectURL(product.images[0]) // Convert File to URL
-                : "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
-            }
-            alt="Product Image"
+            src={product.images?.[0]?.toString()} // Fixed: Convert File to string
+            alt={"img"}
             className="w-full h-full object-contain"
           />
         </div>
