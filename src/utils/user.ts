@@ -2,7 +2,7 @@ import axiosInstance from "../lib/axiosInstance";
 
 export const fetchUserNameById = async (userId: string) => {
   try {
-    const response = await axiosInstance.get(`/api/admin/user/${userId}`); // Modify this URL based on your backend
+    const response = await axiosInstance.get(`/admin/user/${userId}`); // Modify this URL based on your backend
     return response.data.name; // assuming the response contains a `username` field
   } catch (error) {
     console.error("Error fetching username:", error);
