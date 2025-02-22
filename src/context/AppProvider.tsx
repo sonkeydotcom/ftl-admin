@@ -57,7 +57,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     async (email: string, password: string): Promise<LoginResult> => {
       setIsLoading(true);
       try {
-        const response = await axiosInstance.post<User>("admin/login", {
+        const response = await axiosInstance.post<User>("users/login", {
           email,
           password,
         });
