@@ -58,7 +58,7 @@ export interface Order {
   id: number;
   image: string;
   title: string;
-  price: number;
+  totalAmount: number;
   quantity: number;
   category: string;
   status: string;

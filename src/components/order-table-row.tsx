@@ -35,7 +35,7 @@ const OrderTableRow: React.FC<TableRowProps> = ({
         {moment(order.createdAt).format("MMM Do YY")}
       </td>
       <td className="px-4 py-2 border border-gray-300">{order.status}</td>
-      <td className="px-4 py-2 border border-gray-300">{order.totalPrice}</td>
+      <td className="px-4 py-2 border border-gray-300">{order.totalAmount}</td>
       <td className="px-4 py-2 border border-gray-300">
         <button
           onClick={() => {
