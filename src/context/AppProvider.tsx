@@ -133,8 +133,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get<Product[]>("/products");
-      console.log("Fetched products:", response.data);
-      setProducts(response.data);
+      console.log("Fetched products:", response);
+      setProducts(response?.data);
     } catch (error) {
       console.error("Error fetching products:", error);
     } finally {

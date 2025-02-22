@@ -23,7 +23,7 @@ const Products = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [fetchProducts]);
 
   console.log("Selected Product:", selectedProduct);
   return (
