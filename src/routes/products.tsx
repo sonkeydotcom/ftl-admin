@@ -19,7 +19,7 @@ const Products = () => {
 
   useMemo(() => {
     fetchProducts();
-  }, []);
+  }, [fetchProducts]);
 
   console.log("Selected Product:", selectedProduct);
   return (
