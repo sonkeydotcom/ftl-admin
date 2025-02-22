@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import TableRow from "../components/TableRow";
 
 import { useAppContext } from "../hooks/hooks";
@@ -21,9 +21,9 @@ const Products = () => {
     setShowCreate(false);
   };
 
-  useMemo(() => {
+  useEffect(() => {
     fetchProducts();
-  }, [fetchProducts]);
+  }, []);
 
   console.log("Selected Product:", selectedProduct);
   return (

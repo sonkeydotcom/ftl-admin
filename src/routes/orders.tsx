@@ -4,13 +4,13 @@ import OrderTableRow from "../components/order-table-row";
 import { useAppContext } from "../hooks/hooks";
 
 const Orders = () => {
-  const { fetchOrders, orders, isLoading } = useAppContext();
+  const { fetchOrders, orders = [], isLoading } = useAppContext();
   const [showOrderDetails, setShowOrderDetails] = useState(false);
   const [orderId, setOrderId] = useState(0);
 
   useEffect(() => {
     fetchOrders();
-  }, []);
+  }, [fetchOrders]);
   return (
     <div className="px-5 py-5">
       <h3>All Orders</h3>
@@ -36,7 +36,7 @@ const Orders = () => {
                 Loading...
               </td>
             </tr>
-          ) : (
+          ) : orders.length ? (
             orders.map((order) => (
               <OrderTableRow
                 setShowOrderDetails={setShowOrderDetails}
@@ -45,6 +45,15 @@ const Orders = () => {
                 setOrderId={setOrderId}
               />
             ))
+          ) : (
+            <tr>
+              <td
+                colSpan={6}
+                className="px-4 py-2 border border-gray-300 text-center"
+              >
+                No orders available
+              </td>
+            </tr>
           )}
         </tbody>
       </table>
