@@ -7,6 +7,7 @@ interface CustomInoutProps {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   name?: string; // Added a new property named 'name' to the CustomInput component
+  required?: boolean; // Added a new property named'required' to the CustomInput component to allow input fields to be required
 }
 
 const CustomeInput: React.FC<CustomInoutProps> = ({
@@ -16,6 +17,7 @@ const CustomeInput: React.FC<CustomInoutProps> = ({
   onChange,
   name,
   type,
+  required = false, // Added a new property named'required' to the CustomInput component to allow input fields to be required
 }) => {
   return (
     <div className="max-w-lg ">
@@ -35,6 +37,7 @@ const CustomeInput: React.FC<CustomInoutProps> = ({
         value={value}
         type={title === "password" ? "password" : type ? type : "text"}
         onChange={onChange}
+        required={required} // Added a new property to enforce required input fields
       />
     </div>
   );

@@ -4,19 +4,30 @@ import { Product } from "../types/types";
 
 interface TableRowProps {
   product: Product;
+  setShowEdit: (show: boolean) => void;
 }
 
-const TableRow: React.FC<TableRowProps> = ({ product }) => {
-  const { setSelectedProduct } = useAppContext();
+const TableRow: React.FC<TableRowProps> = ({ product, setShowEdit }) => {
+  const { setSelectedProduct, deleteProduct } = useAppContext();
 
   const handleEdit = (product: Product) => {
-    console.log(`Edit product with ID: ${product.id}`);
     setSelectedProduct(product);
+    setShowEdit(true);
   };
 
-  // const handleDelete = (productId: number) => {
-  //   deleteProduct(productId);
-  // };
+  const handleDelete = async (product: Product) => {
+    if (!product._id) {
+      return;
+    }
+    const res = await deleteProduct(product._id);
+    if (res.success) {
+      alert("Product deleted successfully!");
+    } else {
+      alert("Error deleting product. Please try again.");
+    }
+
+    // Implement delete logic here
+  };
 
   return (
     <tr className="hover:bg-gray-50 items-center justify-center content-center text-center">
@@ -27,9 +38,21 @@ const TableRow: React.FC<TableRowProps> = ({ product }) => {
             height: "80px",
           }}
         >
+          {/* <img
+            src={
+              product.images?.[0] ||
+              "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+            } // Provide a default image if `product.image` is null or undefined
+            alt={"img"}
+            className="w-full h-full object-contain"
+          /> */}
           <img
-            src={product.image?.[0] || "/default-image.jpg"} // Provide a default image if `product.image` is null or undefined
-            alt={product.name}
+            src={
+              product.images && product.images.length > 0
+                ? URL.createObjectURL(product.images[0]) // Convert File to URL
+                : "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+            }
+            alt="Product Image"
             className="w-full h-full object-contain"
           />
         </div>
@@ -46,7 +69,7 @@ const TableRow: React.FC<TableRowProps> = ({ product }) => {
           Edit
         </button>
         <button
-          onClick={() => console.log(`Deleting product with ID: ${product.id}`)}
+          onClick={() => handleDelete(product)}
           className="text-sm font-medium text-red-600 hover:underline ml-2"
           aria-label={`Delete ${product.name}`}
         >

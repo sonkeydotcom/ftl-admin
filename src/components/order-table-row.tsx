@@ -6,7 +6,7 @@ import { Order } from "../types/types";
 interface TableRowProps {
   order: Order;
   setShowOrderDetails: (show: boolean) => void;
-  setOrderId: (orderId: number) => void;
+  setOrderId: (orderId: string) => void;
 }
 
 const OrderTableRow: React.FC<TableRowProps> = ({
@@ -28,9 +28,9 @@ const OrderTableRow: React.FC<TableRowProps> = ({
   return (
     <tr className="hover:bg-gray-50 justify-center content-center items-center text-center">
       <td className="px-4 py-2 border border-gray-300">
-        {order.customerName || order.userId}
+        {order.customerName || order.user}
       </td>
-      <td className="px-4 py-2 border border-gray-300">{order.id}</td>
+      <td className="px-4 py-2 border border-gray-300">{order._id}</td>
       <td className="px-4 py-2 border border-gray-300">
         {moment(order.createdAt).format("MMM Do YY")}
       </td>
@@ -40,7 +40,7 @@ const OrderTableRow: React.FC<TableRowProps> = ({
         <button
           onClick={() => {
             setShowOrderDetails(true);
-            setOrderId(order.id);
+            setOrderId(order._id);
           }}
         >
           View details

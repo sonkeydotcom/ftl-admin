@@ -17,9 +17,11 @@ const Edit: React.FC<EditProps> = ({ showEdit, closeEdit }) => {
   const [form, setForm] = useState({
     name: "",
     price: "",
-    quantity: "",
+    stock: "",
     description: "",
   });
+
+  const [error, setError] = useState("");
 
   // Update form state when selectedProduct changes
   useEffect(() => {
@@ -27,7 +29,7 @@ const Edit: React.FC<EditProps> = ({ showEdit, closeEdit }) => {
       setForm({
         name: selectedProduct.name,
         price: selectedProduct.price.toString(),
-        quantity: selectedProduct.quantity.toString() || "0",
+        stock: selectedProduct.stock.toString() || "0",
         description: selectedProduct.description || "",
       });
     }
@@ -45,23 +47,28 @@ const Edit: React.FC<EditProps> = ({ showEdit, closeEdit }) => {
     }));
   };
 
-  const handleUpdate = () => {
-    if (!form.name || !form.price || !form.quantity || !form.description) {
+  const handleUpdate = async () => {
+    if (!form.name || !form.price || !form.stock || !form.description) {
       alert("Please fill in all fields.");
       return;
     }
 
-    console.log("Updating product:", form);
     const payLoad: Partial<Product> = {
-      id: selectedProduct?.id,
+      id: selectedProduct?._id,
       name: form.name,
       price: parseFloat(form.price),
-      quantity: parseInt(form.quantity),
+      stock: parseInt(form.stock),
       description: form.description,
       // Add any other fields if needed
     };
-    updateProduct(payLoad); // Call context's updateProduct method to save changes
-    closeEdit(); // Close the modal after updating
+    const res = await updateProduct(payLoad);
+    console.log("Updated product:", res);
+    if (res.success) {
+      alert("Product updated successfully!");
+      closeEdit();
+    } else {
+      setError("Error updating product. Please try again.");
+    }
   };
 
   return (
@@ -90,10 +97,10 @@ const Edit: React.FC<EditProps> = ({ showEdit, closeEdit }) => {
 
         {/* Quantity Input */}
         <CustomeInput
-          title="Quantity"
-          name="quantity"
-          value={form.quantity}
-          placeholder="Enter product quantity"
+          title="Stock"
+          name="stock"
+          value={form.stock}
+          placeholder="Enter product stock"
           onChange={handleInputChange}
           type="number"
         />
@@ -106,6 +113,8 @@ const Edit: React.FC<EditProps> = ({ showEdit, closeEdit }) => {
           placeholder="Enter product description"
           onChange={handleInputChange}
         />
+
+        {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
 
         {/* Save Button */}
         <div className="mt-6 flex justify-end">

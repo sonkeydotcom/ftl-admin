@@ -6,7 +6,7 @@ import { useAppContext } from "../hooks/hooks";
 interface OrderDetailsProps {
   showOrderDetails: boolean;
   setShowOrderDetails: (value: boolean) => void;
-  orderId: number;
+  orderId: string;
 }
 
 const OrderDetails: React.FC<OrderDetailsProps> = ({

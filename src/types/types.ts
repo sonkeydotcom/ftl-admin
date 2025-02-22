@@ -32,10 +32,8 @@ export interface LoginResult {
 // }
 
 export interface CategoriesProps {
-  id?: number;
+  _id?: number;
   name: string;
-  type: string;
-  value: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -55,7 +53,7 @@ export interface OrderDetails {
 // }
 
 export interface Order {
-  id: number;
+  _id: string;
   image: string;
   title: string;
   totalAmount: number;
@@ -65,22 +63,22 @@ export interface Order {
   totalPrice: number;
   createdAt: string;
   customerName: string;
-  userId: string;
+  user: string;
 }
 
 export interface Product {
-  id?: number;
+  id?: string;
   _id?: string;
   name: string;
   description: string;
   price: number;
   stock: number;
-  // files: File | File[];
-  files: null | File;
-  image?: string | null;
+
+  images: File[] | null;
+
   sizes: string;
   colors: string;
-  categoryId: string;
+  category: string;
 }
 
 export interface AppContextValue {
@@ -90,22 +88,31 @@ export interface AppContextValue {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   bank: Bank | null;
   setBank: React.Dispatch<React.SetStateAction<Bank | null>>;
-  createProduct: (product: Product) => Promise<void>;
+  createProduct: (product: Product) => Promise<{
+    success: boolean;
+    error?: string;
+  }>;
   fetchCategories: () => void;
   categories: CategoriesProps[] | null;
   selectedProduct: Product | null;
   setSelectedProduct: React.Dispatch<React.SetStateAction<Product | null>>;
-  updateProduct: (product: Partial<Product>) => void;
-  deleteProduct: (id: number) => Promise<void>;
-  updateOrderStatus: (id: number, status: string) => void;
+  updateProduct: (product: Partial<Product>) => Promise<{
+    success: boolean;
+    error?: string;
+  }>;
+  deleteProduct: (id: string) => Promise<{ success: boolean; error?: string }>;
+  updateOrderStatus: (id: string, status: string) => void;
   fetchOrders: () => void;
   login: (email: string, password: string) => Promise<LoginResult>;
   orders: Order[];
   fetchProducts: () => void;
   products: Product[];
-  createCategory: (category: CategoriesProps) => void;
+  createCategory: (
+    category: CategoriesProps
+  ) => Promise<{ success: boolean; error?: LoginError }>;
+
   setSelectedOrder: React.Dispatch<React.SetStateAction<string | null>>;
   selectedOrder: string | null;
-  fetchOrderDetail: (id: number) => void;
+  fetchOrderDetail: (id: string) => void;
   orderDetails: OrderDetails;
 }

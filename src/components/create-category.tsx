@@ -14,37 +14,28 @@ const CreateCategory: React.FC<CategoryFormProps> = ({
   closeCatModal,
 }) => {
   const { createCategory } = useAppContext();
-  const [form, setForm] = useState({
-    name: "",
-    type: "", // Adjusted initial state for clarity
-    value: "",
-  });
 
-  const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: value,
-    }));
-  };
+  const [name, setName] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = () => {
-    if (!form.name || !form.type) {
-      alert("Please fill in all fields before submitting.");
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
+    if (!name.trim()) {
+      alert("Please enter a category name before submitting.");
       return;
     }
-    console.log("Category Created:", form);
-    const payLoad = {
-      name: form.name,
-      type: form.type,
-      value: form.name, // Adjusted initial state for clarity
-    };
-    createCategory(payLoad);
-    setForm({ name: "", type: "", value: "" });
+
+    const payLoad = { name: name.trim() };
+    const res = await createCategory(payLoad);
+
+    if (res.success) {
+      alert("Category created successfully!");
+      setName(""); // Reset form after success
+      // closeCatModal(); // Close modal after success
+    } else {
+      setError(res?.error?.data?.message || "An unknown error occurred.");
+    }
   };
 
   return (
@@ -53,41 +44,27 @@ const CreateCategory: React.FC<CategoryFormProps> = ({
         Create New Category
       </h2>
 
-      {/* Category Type Dropdown */}
-      <label
-        className="block text-sm font-medium text-gray-600 mb-2"
-        htmlFor="type"
-      >
-        Select Category Type
-      </label>
-      <select
-        id="type"
-        name="type"
-        value={form.type}
-        onChange={handleInputChange}
-        className="w-full border border-gray-300 rounded-md p-2 mb-4 focus:outline-none focus:ring focus:ring-blue-300"
-      >
-        <option value="">Select</option>
-        <option value="gender">Gender</option>
-        <option value="clothe_type">Clothe Type</option>
-      </select>
+      {/* Wrap everything in a form */}
+      <form onSubmit={handleSubmit}>
+        {/* Name Input */}
+        <CustomeInput
+          value={name}
+          title="Name"
+          onChange={(e) => setName(e.target.value)}
+          name="name"
+          placeholder="Enter category name"
+        />
 
-      {/* Name Input */}
-      <CustomeInput
-        value={form.name}
-        title="Name"
-        onChange={handleInputChange}
-        name="name"
-        placeholder="Enter category name"
-      />
+        {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
 
-      {/* Submit Button */}
-      <button
-        onClick={handleSubmit}
-        className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md mt-4"
-      >
-        Create Category
-      </button>
+        {/* Submit Button */}
+        <button
+          type="submit" // ✅ This ensures form submission
+          className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md mt-4"
+        >
+          Create Category
+        </button>
+      </form>
     </Modal>
   );
 };

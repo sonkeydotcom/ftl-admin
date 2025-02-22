@@ -18,12 +18,14 @@ const Create: React.FC<CreateProps> = ({ showCreate, closeCreate }) => {
     name: "",
     description: "",
     price: 0,
-    quantity: 0,
-    files: null,
+    stock: 0,
+    images: null,
     colors: "",
     sizes: "",
-    categoryId: "",
+    category: "",
   });
+
+  const [errors, setErrors] = useState("");
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -49,28 +51,37 @@ const Create: React.FC<CreateProps> = ({ showCreate, closeCreate }) => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setForm({ ...form, files: e.target.files[0] });
+      setForm({ ...form, images: e.target.files[0] });
     }
   };
 
-  const handleCreateProduct = () => {
+  const handleCreateProduct = async () => {
     // e.preventDefault();
-    if (isLoading) return; // Prevent multiple submissions
+    setErrors("");
+
+    if (isLoading) return;
     console.log("Creating product:", form);
 
     const payload: Product = {
       name: form.name,
       description: form.description,
       price: form.price,
-      quantity: form.quantity,
-      files: form.files,
+      stock: form.stock,
+      images: form.images,
       colors: form.colors,
       sizes: form.sizes,
-      categoryId: form.categoryId,
+      category: form.category,
       id: Number(""),
     };
 
-    createProduct(payload); // Works as the omitted fields are not required
+    const res = await createProduct(payload);
+
+    if (res.success) {
+      alert("Product created successfully!");
+      closeCreate();
+    } else {
+      setErrors("Error creating product ");
+    }
   };
 
   useEffect(() => {
@@ -88,6 +99,7 @@ const Create: React.FC<CreateProps> = ({ showCreate, closeCreate }) => {
           onChange={handleInputChange}
           name="name"
           placeholder="Enter product title"
+          required
         />
         <CustomeInput
           value={form.description}
@@ -104,11 +116,11 @@ const Create: React.FC<CreateProps> = ({ showCreate, closeCreate }) => {
           placeholder="Enter product price"
         />
         <CustomeInput
-          title="quantity"
-          value={form.quantity}
+          title="stock"
+          value={form.stock}
           onChange={handleInputChange}
-          name="quantity"
-          placeholder="Enter product quantity"
+          name="stock"
+          placeholder="Enter product stock"
         />
 
         <label className="block mb-2 text-sm">Image</label>
@@ -139,9 +151,9 @@ const Create: React.FC<CreateProps> = ({ showCreate, closeCreate }) => {
 
         <label className="block mb-2 text-sm">Category</label>
         <select
-          id="categoryId"
-          name="categoryId"
-          value={form.categoryId}
+          id="category"
+          name="category"
+          value={form.category}
           onChange={handleInputChange}
           disabled={!categories || categories.length === 0} // Disable if no categories
           className="w-full px-3 text-sm font-light py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
@@ -152,13 +164,15 @@ const Create: React.FC<CreateProps> = ({ showCreate, closeCreate }) => {
           ) : (
             categories?.map((category) => (
               <>
-                <option key={category.id} value={category.id}>
+                <option key={category._id} value={category._id}>
                   {category?.name}
                 </option>
               </>
             ))
           )}
         </select>
+
+        {errors && <p className="text-red-500 text-sm">{errors}</p>}
 
         <Button
           onClick={handleCreateProduct}

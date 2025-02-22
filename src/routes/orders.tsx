@@ -6,7 +6,7 @@ import { useAppContext } from "../hooks/hooks";
 const Orders = () => {
   const { fetchOrders, orders = [], isLoading } = useAppContext();
   const [showOrderDetails, setShowOrderDetails] = useState(false);
-  const [orderId, setOrderId] = useState(0);
+  const [orderId, setOrderId] = useState("0");
 
   useEffect(() => {
     fetchOrders();
@@ -16,7 +16,7 @@ const Orders = () => {
       <h3>All Orders</h3>
 
       <table className="w-full border-collapse border border-gray-300 rounded-lg">
-        <thead className="bg-gray-100">
+        <thead className="bg-gray-100 text-sm font-normal">
           <tr>
             <th className="px-4 py-2 border border-gray-300">Name</th>
             <th className="px-4 py-2 border border-gray-300">Order ID</th>
@@ -40,7 +40,7 @@ const Orders = () => {
             orders.map((order) => (
               <OrderTableRow
                 setShowOrderDetails={setShowOrderDetails}
-                key={order.id}
+                key={order._id}
                 order={order}
                 setOrderId={setOrderId}
               />

@@ -15,6 +15,7 @@ const Products = () => {
   } = useAppContext();
 
   const [showCreate, setShowCreate] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
   const [catModal, setShowCatModal] = useState(false);
 
   const closeCreate = () => {
@@ -65,7 +66,11 @@ const Products = () => {
             </tr>
           ) : products?.length ? (
             products.map((product) => (
-              <TableRow key={product._id} product={product} />
+              <TableRow
+                key={product._id}
+                setShowEdit={setShowEdit}
+                product={product}
+              />
             ))
           ) : (
             <tr>
@@ -83,7 +88,7 @@ const Products = () => {
         onClose={() => setShowCatModal(false)}
       />
 
-      <Edit showEdit={showCreate} closeEdit={() => setShowCreate(false)} />
+      <Edit showEdit={showEdit} closeEdit={() => setShowEdit(false)} />
       {showCreate && (
         <Create showCreate={showCreate} closeCreate={closeCreate} />
       )}
