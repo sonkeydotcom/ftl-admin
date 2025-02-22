@@ -27,7 +27,7 @@ const OrderTableRow: React.FC<TableRowProps> = ({
 
   return (
     <tr className="hover:bg-gray-50 text-sm justify-center content-center items-center text-center">
-      <td className="px-4 py-2 border border-gray-300">
+      <td className="px-4 py-2 border text-wrap text-clip border-gray-300">
         {order.customerName || order.user}
       </td>
       <td className="px-4 py-2 border border-gray-300">
