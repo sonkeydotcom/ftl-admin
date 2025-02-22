@@ -15,9 +15,8 @@ const LoginScreen = () => {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError("");
     const res = await login(email, password);
-    console.log("Login result:", res);
-
     if (res.success) {
       navigate("/dashboard");
     } else {
