@@ -63,10 +63,16 @@ const Products = () => {
                 Loading...
               </td>
             </tr>
-          ) : (
+          ) : products?.length ? (
             products.map((product) => (
               <TableRow key={product.id} product={product} />
             ))
+          ) : (
+            <tr>
+              <td colSpan={5} className="py-3 text-center">
+                No products available
+              </td>
+            </tr>
           )}
         </tbody>
       </table>
