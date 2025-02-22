@@ -36,7 +36,7 @@ const TableRow: React.FC<TableRowProps> = ({ product }) => {
       </td>
       <td className="px-4 py-2 border border-gray-300">{product.name}</td>
       <td className="px-4 py-2 border border-gray-300">{product.price}</td>
-      <td className="px-4 py-2 border border-gray-300">{product.quantity}</td>
+      <td className="px-4 py-2 border border-gray-300">{product.stock}</td>
       <td className="px-4 py-2 border border-gray-300">
         <button
           onClick={() => handleEdit(product)}
