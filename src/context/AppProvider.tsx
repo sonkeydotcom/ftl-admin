@@ -64,7 +64,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         return { success: true, data: response.data };
       } catch (error) {
         console.error("Error logging in:", error);
-        return { success: false }; // Return an object with success: false on error
+        return { success: false, error }; // Return an object with success: false on error
       } finally {
         setIsLoading(false);
       }
