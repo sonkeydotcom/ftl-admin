@@ -57,13 +57,15 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     async (email: string, password: string): Promise<LoginResult> => {
       setIsLoading(true);
       try {
-        const response = await axiosInstance.post<User>("users/login", {
+        const response = await axiosInstance.post<User>("/users/login", {
           email,
           password,
         });
+        console.log("User logged in successfully:", response.data);
 
         return { success: true, data: response.data };
       } catch (error) {
+        console.error("Error logging in:", error);
         return { success: false, error }; // Return an object with success: false on error
       } finally {
         setIsLoading(false);
