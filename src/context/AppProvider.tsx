@@ -68,7 +68,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
           email,
           password,
         });
-        // localStorage.setItem("token", response.token);
+        localStorage.setItem("user", JSON.stringify(response.data));
         return { success: true, data: response.data };
       } catch (error) {
         console.error("Error logging in:", error);
