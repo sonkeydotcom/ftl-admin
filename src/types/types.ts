@@ -1,6 +1,10 @@
 // types.ts
 export interface User {
   isAuthenticated: boolean;
+  email: string;
+  password: string;
+  role?: string;
+  token: string;
 }
 
 export interface Bank {

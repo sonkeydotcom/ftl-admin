@@ -20,7 +20,13 @@ interface AppProviderProps {
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [user, setUser] = useState<User>({ isAuthenticated: false });
+  const [user, setUser] = useState<User>({
+    isAuthenticated: false,
+    email: "",
+    password: "",
+    token: "",
+  });
+
   const [bank, setBank] = useState<Bank | null>(null);
   const [categories, setCategories] = useState<CategoriesProps[] | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
@@ -62,6 +68,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
           email,
           password,
         });
+        localStorage.setItem("token", response.data.token);
         return { success: true, data: response.data };
       } catch (error) {
         console.error("Error logging in:", error);
