@@ -18,7 +18,7 @@ export interface LoginError {
 export interface LoginResult {
   success: boolean;
   data?: User;
-  error?: unknown;
+  error?: LoginError; // Now TypeScript knows `error` has `data.message`
 }
 
 // export interface LoginResult {

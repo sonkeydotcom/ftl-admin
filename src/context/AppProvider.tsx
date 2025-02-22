@@ -10,6 +10,7 @@ import type {
   OrderDetails,
   Order,
   LoginResult,
+  LoginError,
 } from "../types/types";
 import axiosInstance from "../lib/axiosInstance";
 
@@ -64,7 +65,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         return { success: true, data: response.data };
       } catch (error) {
         console.error("Error logging in:", error);
-        return { success: false, error }; // Return an object with success: false on error
+        return { success: false, error: error as LoginError }; // Return an object with success: false on error
       } finally {
         setIsLoading(false);
       }
