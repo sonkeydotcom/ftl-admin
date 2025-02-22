@@ -9,6 +9,7 @@ import Store from "./routes/store";
 import { AppProvider } from "./context/AppProvider";
 import Products from "./routes/products";
 import Orders from "./routes/orders";
+import { ProtectedRoute } from "./components/protected";
 
 const router = createBrowserRouter([
   {
@@ -17,12 +18,17 @@ const router = createBrowserRouter([
     // children: [{ path: "/", element: <LoginScreen /> }],
   },
   {
-    path: "/dashboard",
-    element: <Root />,
+    element: <ProtectedRoute />,
     children: [
-      { index: true, element: <Store /> },
-      { path: "Products", element: <Products /> },
-      { path: "Orders", element: <Orders /> },
+      {
+        path: "/dashboard",
+        element: <Root />,
+        children: [
+          { index: true, element: <Store /> },
+          { path: "Products", element: <Products /> },
+          { path: "Orders", element: <Orders /> },
+        ],
+      },
     ],
   },
 ]);
