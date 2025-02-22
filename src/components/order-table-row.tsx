@@ -30,7 +30,11 @@ const OrderTableRow: React.FC<TableRowProps> = ({
       <td className="px-4 py-2 border border-gray-300">
         {order.customerName || order.user}
       </td>
-      <td className="px-4 py-2 border border-gray-300">{order._id}</td>
+      <td className="px-4 py-2 border border-gray-300">
+        {order._id ? order._id.substring(0, 8) : "N/A"}{" "}
+        {/* Truncate to 8 characters */}
+      </td>
+
       <td className="px-4 py-2 border border-gray-300">
         {moment(order.createdAt).format("MMM Do YY")}
       </td>
