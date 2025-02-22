@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import { useAppContext } from "../hooks/hooks";
 import moment from "moment";
 import { Order } from "../types/types";
+import { fetchUserNameById } from "../utils/user";
 
 interface TableRowProps {
   order: Order;
@@ -25,10 +26,23 @@ const OrderTableRow: React.FC<TableRowProps> = ({
   //   console.log(`Delete order with ID: ${orderId}`);
   // };
 
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    const getUserName = async () => {
+      if (order.user) {
+        const name = await fetchUserNameById(order.user);
+        setUserName(name);
+      }
+    };
+
+    getUserName();
+  }, [order.user]);
+
   return (
     <tr className="hover:bg-gray-50 text-sm justify-center content-center items-center text-center">
       <td className="px-4 py-2 border text-wrap text-clip border-gray-300">
-        {order.customerName || order.user}
+        {order.customerName || userName}
       </td>
       <td className="px-4 py-2 border border-gray-300">
         {order._id ? order._id.substring(0, 8) : "N/A"}{" "}
