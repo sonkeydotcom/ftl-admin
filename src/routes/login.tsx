@@ -39,7 +39,7 @@ const LoginScreen = () => {
         />
 
         <CustomInput
-          title="Password"
+          title="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Enter your email"
