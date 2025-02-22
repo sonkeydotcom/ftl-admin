@@ -31,7 +31,9 @@ const OrderTableRow: React.FC<TableRowProps> = ({
   useEffect(() => {
     const getUserName = async () => {
       if (order.user) {
-        const name = await fetchUserNameById(order.user);
+        const id = order.user;
+        console.log("Fetching user name for ID:", id);
+        const name = await fetchUserNameById(id);
         setUserName(name);
       }
     };
