@@ -7,8 +7,12 @@ import Create from "../components/create";
 import CreateCategory from "../components/create-category";
 
 const Products = () => {
-  const { selectedProduct, fetchProducts, products, isLoading } =
-    useAppContext();
+  const {
+    selectedProduct,
+    fetchProducts,
+    products = [],
+    isLoading,
+  } = useAppContext();
 
   const [showCreate, setShowCreate] = useState(false);
   const [catModal, setShowCatModal] = useState(false);
