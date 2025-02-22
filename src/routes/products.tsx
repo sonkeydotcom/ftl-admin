@@ -52,7 +52,7 @@ const Products = () => {
             <th className="px-4 py-2 border border-gray-300">Product Image</th>
             <th className="px-4 py-2 border border-gray-300">Title</th>
             <th className="px-4 py-2 border border-gray-300">Price</th>
-            <th className="px-4 py-2 border border-gray-300">Quantity</th>
+            <th className="px-4 py-2 border border-gray-300">Stock</th>
             <th className="px-4 py-2 border border-gray-300">Action</th>
           </tr>
         </thead>

@@ -89,7 +89,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       formData.append("name", data.name);
       formData.append("description", data.description);
       formData.append("price", data.price.toString());
-      formData.append("quantity", data.quantity.toString());
+      formData.append("stock", data.stock.toString());
       formData.append("colors", data.colors); // Assuming `colors` is a string like "Red, Blue"
       formData.append("sizes", data.sizes); // Assuming `sizes` is a string like "S, M, L"
       formData.append("categoryId", data.categoryId); // Assuming `category` is the category ID
