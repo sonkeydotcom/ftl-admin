@@ -25,10 +25,10 @@ const Root = () => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0`}
       >
-        <div className="border-b py-4 px-2 ">
+        <div className="border-b flex flex-row justify-between content-center py-4 px-2 ">
           <h3 className="text-xl font-medium"> FTL </h3>
           <button
-            className="md:hidden text-xl px-2"
+            className="md:hidden text-xl "
             onClick={() => setIsOpen(false)}
           >
             ✖
@@ -43,9 +43,10 @@ const Root = () => {
         </ul>
       </nav>
       <main className="w-full overflow-scroll">
-        <div className="w-full md:hidden justify-end bg-slate-400 px-5 py-2">
+        {/* Mobile menu button */}
+        <div className="w-full md:hidden flex justify-end bg-slate-400 px-5 py-2">
           <button
-            className=" bg-gray-800 text-white px-3 py-1 rounded"
+            className="bg-gray-800 text-white px-3 py-1 rounded"
             onClick={() => setIsOpen(!isOpen)}
           >
             ☰ Menu
