@@ -25,7 +25,7 @@ const Root = () => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0`}
       >
-        <div className="border-b flex flex-row justify-between content-center py-4 px-2 ">
+        <div className="border-b flex flex-row justify-between content-between items-center py-4 px-2 ">
           <h3 className="text-xl font-medium"> FTL </h3>
           <button
             className="md:hidden text-xl "
