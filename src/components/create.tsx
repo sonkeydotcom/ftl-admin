@@ -49,9 +49,17 @@ const Create: React.FC<CreateProps> = ({ showCreate, closeCreate }) => {
   //   setForm({ ...form, files: e.target.files[0] });
   // };
 
+  // const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files && e.target.files[0]) {
+  //     setForm({ ...form, images: e.target.files[0] });
+  //   }
+  // };
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setForm({ ...form, images: e.target.files[0] });
+    if (e.target.files) {
+      // Convert FileList to array and set it to form
+      const fileArray = Array.from(e.target.files);
+      setForm({ ...form, images: fileArray });
     }
   };
 
@@ -71,7 +79,7 @@ const Create: React.FC<CreateProps> = ({ showCreate, closeCreate }) => {
       colors: form.colors,
       sizes: form.sizes,
       category: form.category,
-      id: Number(""),
+      id: "",
     };
 
     const res = await createProduct(payload);
