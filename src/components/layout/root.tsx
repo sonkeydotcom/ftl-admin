@@ -42,13 +42,15 @@ const Root = () => {
           ))}
         </ul>
       </nav>
-      <main className="w-full overflow-scroll">
-        <button
-          className="md:hidden absolute top-4 left-4 bg-gray-800 text-white px-3 py-1 rounded"
-          onClick={() => setIsOpen(true)}
-        >
-          ☰ Menu
-        </button>
+      <main className="w-full gap-10 overflow-scroll">
+        <div className="w-full md:hidden absolute bg-slate-400 px-5 py-2">
+          <button
+            className=" bg-gray-800 text-white px-3 py-1 rounded"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            ☰ Menu
+          </button>
+        </div>
         <Outlet />
       </main>
     </div>
