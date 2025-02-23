@@ -22,7 +22,7 @@ const Store = () => {
         {summary.map((item, index) => (
           <div
             key={index}
-            className="bg-white h-24 px-6 py-4 rounded-md shadow-md flex flex-col justify-between w-1/3"
+            className="bg-white h-24 px-6 py-4 rounded-md shadow-md flex flex-col justify-between md:w-1/3"
           >
             <p className="text-gray-500 text-sm">{item.title}</p>
             <h4 className="text-lg font-bold text-gray-800">{item.value}</h4>
