@@ -16,9 +16,9 @@ const Store = () => {
   ];
 
   return (
-    <div className="bg-gray-200 flex flex-col h-full w-full gap-4 p-5 md:gap-6">
+    <div className="bg-gray-200 flex flex-col h-full w-full gap-6 p-5">
       {/* Summary Cards Section */}
-      <div className="flex flex-col w-full md:flex-row gap-6 items-center">
+      <div className="flex flex-col w-full md:flex-row gap-6">
         {summary.map((item, index) => (
           <div
             key={index}
@@ -36,8 +36,10 @@ const Store = () => {
 
         {/* Upload Container */}
         <div className="relative rounded border border-dashed border-gray-400 h-24 flex flex-col justify-center items-center cursor-pointer hover:bg-gray-100">
-          <LuImagePlus className="text-gray-500 text-2xl mb-2" />
-          <p className="text-gray-500 text-sm">Click to upload image</p>
+          <LuImagePlus className="text-gray-500 text-xl mb-2 md:text-2xl" />
+          <p className="text-gray-500 text-sm md:text-base">
+            Click to upload image
+          </p>
 
           {/* Hidden File Input */}
           <input
