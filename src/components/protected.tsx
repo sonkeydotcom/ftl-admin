@@ -15,6 +15,7 @@ const useAuth = () => {
     localStorage.getItem("user") || "null"
   ) as User | null;
   return user;
+  console.log(user);
 };
 
 // Protected Route wrapper component
