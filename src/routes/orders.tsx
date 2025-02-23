@@ -16,14 +16,26 @@ const Orders = () => {
       <h3 className="text-xl font-semibold mb-4">All Orders</h3>
       <div className="overflow-x-auto rounded-lg shadow">
         <table className="w-full border-collapse border border-gray-300 min-w-[640px]">
-          <thead className="bg-gray-100 text-sm font-normal">
+          <thead className="bg-gray-100">
             <tr>
-              <th className="px-4 py-2 border border-gray-300">Name</th>
-              <th className="px-4 py-2 border border-gray-300">Order ID</th>
-              <th className="px-4 py-2 border border-gray-300">Date</th>
-              <th className="px-4 py-2 border border-gray-300">Order status</th>
-              <th className="px-4 py-2 border border-gray-300">Price</th>
-              <th className="px-4 py-2 border border-gray-300">{""}</th>
+              <th className="px-2 sm:px-4 py-2 border border-gray-300 text-xs sm:text-sm font-medium">
+                Name
+              </th>
+              <th className="px-2 sm:px-4 py-2 border border-gray-300 text-xs sm:text-sm font-medium">
+                Order ID
+              </th>
+              <th className="px-2 sm:px-4 py-2 border border-gray-300 text-xs sm:text-sm font-medium">
+                Date
+              </th>
+              <th className="px-2 sm:px-4 py-2 border border-gray-300 text-xs sm:text-sm font-medium">
+                Order status
+              </th>
+              <th className="px-2 sm:px-4 py-2 border border-gray-300 text-xs sm:text-sm font-medium">
+                Price
+              </th>
+              <th className="px-2 sm:px-4 py-2 border border-gray-300 text-xs sm:text-sm font-medium">
+                {""}
+              </th>
             </tr>
           </thead>
           <tbody>
