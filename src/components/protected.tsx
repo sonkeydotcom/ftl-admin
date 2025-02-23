@@ -1,42 +1,15 @@
 import { Navigate, Outlet } from "react-router-dom";
+import { useAppContext } from "../hooks/hooks";
 
-// Type for the user with admin status
-interface User {
-  id: string;
-  email: string;
-  isAdmin: boolean;
-  // ... other user properties
-}
-
-// Check if user is authenticated
-const useAuth = () => {
-  // Get user from localStorage or your auth state
-  const user = JSON.parse(
-    localStorage.getItem("user") || "null"
-  ) as User | null;
-  console.log(user);
-  return user;
-};
-
-// Protected Route wrapper component
 export const ProtectedRoute = () => {
-  const user = useAuth();
+  const { user } = useAppContext();
 
   if (!user) {
+    console.log("Unauthorized access, redirecting to login...");
     return <Navigate to="/" replace />;
   }
 
   return <Outlet />;
 };
 
-// Admin Route wrapper component
-export const AdminRoute = () => {
-  const user = useAuth();
-
-  if (!user || !user.isAdmin) {
-    // Redirect non-admin users to dashboard or another appropriate page
-    return <Navigate to="/dashboard" replace />;
-  }
-
-  return <Outlet />;
-};
+// || user.role !== "admin" || !user.isVerified

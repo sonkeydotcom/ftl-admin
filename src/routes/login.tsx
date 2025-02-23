@@ -1,5 +1,6 @@
 import Button from "../components/ui/custom-button";
 import CustomInput from "../components/ui/custom-input";
+// import { useEffect } from "react";
 
 import { useAppContext } from "../hooks/hooks";
 import { useState } from "react";
@@ -12,6 +13,13 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/dashboard");
+  //     return;
+  //   }
+  // }, [user, navigate]);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

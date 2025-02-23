@@ -1,5 +1,5 @@
 // AppProvider.tsx
-import React, { useState, useCallback, type ReactNode } from "react";
+import React, { useState, useCallback, type ReactNode, useEffect } from "react";
 import { AppContext } from "./context";
 import type {
   User,
@@ -9,8 +9,8 @@ import type {
   CategoriesProps,
   OrderDetails,
   Order,
-  LoginResult,
   LoginError,
+  LoginResponse,
 } from "../types/types";
 import axiosInstance from "../lib/axiosInstance";
 
@@ -20,12 +20,7 @@ interface AppProviderProps {
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [user, setUser] = useState<User>({
-    isAuthenticated: false,
-    email: "",
-    password: "",
-    token: "",
-  });
+  const [user, setUser] = useState<User | null>(null);
 
   const [bank, setBank] = useState<Bank | null>(null);
   const [categories, setCategories] = useState<CategoriesProps[] | null>(null);
@@ -43,47 +38,62 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
 
-  // const login = useCallback(async (email: string, password: string) => {
-  //   setIsLoading(true);
-  //   try {
-  //     const response = await axiosInstance.post<User>("admin/login", {
-  //       email,
-  //       password,
-  //     });
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
 
-  //     return { success: true, data: response.data };
-  //   } catch (error) {
-  //     console.log("Error logging in:", error);
-  //     return { success: false, error };
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // }, []);
+    if (storedUser && token) {
+      const parsedUser: User = JSON.parse(storedUser);
 
-  const login = useCallback(
-    async (email: string, password: string): Promise<LoginResult> => {
-      setIsLoading(true);
-      try {
-        const response = await axiosInstance.post<User>("/users/login", {
-          email,
-          password,
-        });
+      verifyToken().then((isValid) => {
+        if (isValid) {
+          setUser(parsedUser);
+        } else {
+          logout();
+        }
+      });
+    }
+  }, []);
 
-        const user = response.data;
-        console.log("Logged in user:", user);
+  const verifyToken = async () => {
+    try {
+      const response = await axiosInstance.get("/admin/profile/");
+      console.log("User profile:", response);
+      return true;
+    } catch (error) {
+      console.error("Invalid token:", error);
+      return false;
+    }
+  };
 
-        localStorage.setItem("user", JSON.stringify(user));
+  const logout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    setUser(null);
+  };
 
-        return { success: true, data: response.data };
-      } catch (error) {
-        console.error("Error logging in:", error);
-        return { success: false, error: error as LoginError }; // Return an object with success: false on error
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    []
-  );
+  const login = useCallback(async (email: string, password: string) => {
+    setIsLoading(true);
+    try {
+      const response = await axiosInstance.post<LoginResponse>("/users/login", {
+        email,
+        password,
+      });
+
+      const { token, user } = response.data;
+
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", token);
+
+      return { success: true, data: response.data };
+    } catch (error) {
+      console.error("Error logging in:", error);
+      return { success: false, error: error as LoginError }; // Return an object with success: false on error
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   const fetchProducts = useCallback(async () => {
     setIsLoading(true);
     try {

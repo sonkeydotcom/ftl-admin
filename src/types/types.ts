@@ -1,9 +1,16 @@
 // types.ts
 export interface User {
-  isAuthenticated: boolean;
+  isAuthenticated: false;
+  id: string;
+  name: string;
   email: string;
-  password: string;
-  role?: string;
+  role: string;
+  isVerified: boolean;
+  // Remove token from User interface
+}
+
+export interface LoginResponse {
+  user: User;
   token: string;
 }
 
@@ -21,7 +28,10 @@ export interface LoginError {
 
 export interface LoginResult {
   success: boolean;
-  data?: User;
+  data?: {
+    user: User;
+    token: string;
+  };
   error?: LoginError; // Now TypeScript knows `error` has `data.message`
 }
 
@@ -82,8 +92,8 @@ export interface Product {
 }
 
 export interface AppContextValue {
-  user: User;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   bank: Bank | null;
