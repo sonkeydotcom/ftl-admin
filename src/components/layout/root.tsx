@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 
 const navLinks = [
@@ -16,11 +17,22 @@ const navLinks = [
 ];
 
 const Root = () => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="flex flex-1 w-full h-full overflow-hidden fixed">
-      <nav className="w-1/3 border-r bg-gray-50">
+      <nav
+        className={`absolute md:relative md:w-1/3 border-r bg-gray-50 h-full transition-transform transform ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0`}
+      >
         <div className="border-b py-4 px-2 ">
           <h3 className="text-xl font-medium"> FTL </h3>
+          <button
+            className="md:hidden text-xl px-2"
+            onClick={() => setIsOpen(false)}
+          >
+            ✖
+          </button>
         </div>
         <ul className="flex-col gap-4 py-2 px-4">
           {navLinks.map((link) => (
