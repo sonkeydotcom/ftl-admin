@@ -16,7 +16,7 @@ const Store = () => {
   ];
 
   return (
-    <div className="bg-gray-200 flex flex-col h-full w-full gap-6 p-5">
+    <div className="bg-gray-200 flex flex-col h-full w-full gap-4 p-5 md:gap-6">
       {/* Summary Cards Section */}
       <div className="flex flex-col w-full md:flex-row gap-6">
         {summary.map((item, index) => (
