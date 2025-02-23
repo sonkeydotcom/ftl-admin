@@ -15,7 +15,7 @@ const Orders = () => {
     <div className="px-5 py-5">
       <h3 className="text-xl font-semibold mb-4">All Orders</h3>
       <div className="overflow-x-auto rounded-lg shadow">
-        <table className="w-full border-collapse border border-gray-300 rounded-lg">
+        <table className="w-full border-collapse border border-gray-300 min-w-[640px]">
           <thead className="bg-gray-100 text-sm font-normal">
             <tr>
               <th className="px-4 py-2 border border-gray-300">Name</th>
