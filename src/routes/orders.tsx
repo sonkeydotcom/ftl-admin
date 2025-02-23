@@ -43,7 +43,7 @@ const Orders = () => {
               <tr>
                 <td
                   colSpan={6}
-                  className="px-4 py-2 border border-gray-300 text-center"
+                  className="px-2 sm:px-4 py-2 border border-gray-300 text-center text-sm"
                 >
                   Loading...
                 </td>
