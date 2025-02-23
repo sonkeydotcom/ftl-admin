@@ -18,7 +18,7 @@ const Store = () => {
   return (
     <div className="bg-gray-200 flex flex-col h-full w-full gap-6 p-5">
       {/* Summary Cards Section */}
-      <div className="flex gap-6">
+      <div className="flex flex-col w-full md:flex-row gap-6">
         {summary.map((item, index) => (
           <div
             key={index}
